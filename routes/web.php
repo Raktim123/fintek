@@ -94,6 +94,8 @@ Route::middleware('auth')->prefix("instructor")->group(function () {
     Route::post("curriculums/lessons/update-content", [CurriculumController::class, "update_lesson_content"])->name("curriculum.update_lesson_content");
 
     Route::resource("curriculums", CurriculumController::class);
+
+    Route::get("earnings", [InstructorController::class, "earning"])->name("instructor.earning");
 });
 
 
@@ -115,7 +117,7 @@ Route::get("/admin", function () {
     Route::resource("adminprofile", Adminprofilemanagement::class);
     Route::resource("coursesinfo", AdminCourseController::class);
     Route::post('/addprivacy', [AdminCourseController::class, "updatecoursestat"])->name('stat.update');
-    Route::post('/editphoto', [AdminCourseController::class, "updatecoursestat"])->name('adminprofile.setpic');
+    Route::post('/editphoto', [Adminprofilemanagement::class, "setpickphoto"])->name('adminprofile.setpic');
 });
 
 require __DIR__.'/auth.php';

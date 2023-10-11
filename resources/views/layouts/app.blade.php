@@ -114,16 +114,7 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav">
-                    <!-- <?php foreach ($menus['category'] as $value) { ?>
-                        <li class="dropdown">
-                            <a data-toggle="dropdown" href="productlist.php">{{ $value['title'] }}</a>
-                            <ul class="dropdown-menu">
-                            <?php foreach ($value['subcat'] as $subcatt) { ?>
-                                    <li><a href="#">{{$subcatt['sub_title']}}</a></li>
-                                <?php } ?>
-                            </ul>
-                        </li>
-                    <?php } ?> -->
+                    
                 </ul>
             </div>
             <div class="contact__info">

@@ -157,9 +157,9 @@
                         }
                     }
                 },
-                // application_context: {
-                //     shipping_preference: 'NO_SHIPPING'
-                // }
+                application_context: {
+                    shipping_preference: 'NO_SHIPPING'
+                }
             })
         },
         onApprove(data) {

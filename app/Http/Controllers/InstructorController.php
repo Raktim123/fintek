@@ -13,4 +13,9 @@ class InstructorController extends Controller
 
         return view("instructor.dashboard", ["courses" => $courses]);
     }
+
+    public function earning(Request $request)
+    {
+        return view("instructor.earning");
+    }
 }

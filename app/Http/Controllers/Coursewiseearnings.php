@@ -14,7 +14,7 @@ class Coursewiseearnings extends Controller
      */
     public function index()
     {
-        $query = "select A.title,A.enrolled, case when A.enrolled*courses.sale_price is null then '0.00' else A.enrolled*courses.sale_price end as income,courses.thumbnail,courses.language,courses.level from (select *,(select count(*) from enrolls where course_id = id) as enrolled from courses where instructor_id = ?)A inner join courses on A.id = courses.id";
+        $query = "select A.title,A.enrolled, case when A.enrolled*courses.sale_price is null then '0.00' else A.enrolled*courses.sale_price end as income,courses.thumbnail,courses.language,courses.level from (select *,(select count(*) from enrolls where course_id = courses.id) as enrolled from courses where instructor_id = ?)A inner join courses on A.id = courses.id";
 
          $results = DB::select($query, [auth()->user()->id]);
          return view('instructor.coursewiseearn', ['support' => $results]);

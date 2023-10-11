@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 
 class Adminprofilemanagement extends Controller
 {
@@ -61,10 +62,12 @@ class Adminprofilemanagement extends Controller
 
         if (Hash::check($request->current_password, $xel[0]->password)) {
             if($request->new_password==$request->cnf_password){
-                $user = User::find($id);
-                $user->update([
+                DB::table('users')
+                ->where('id', $id)
+                ->update([
                     'password' => Hash::make($request->new_password),
                 ]);
+                
                 return redirect()->route('adminprofile.index');
             }else{
                 return redirect()->back()->with('error', 'Password Confirmation is not same.');
@@ -89,5 +92,24 @@ class Adminprofilemanagement extends Controller
     public function getData(){
         $alldata = User::where('id',auth()->user()->id)->get()->toArray();
         return $alldata;
+    }
+
+    public function setpickphoto(Request $request){
+        if ($request->hasFile('picture')) {
+            if ($request->file('picture')->isValid()) {
+                $imageName = $request->file('picture')->store('banner', 'public');
+                DB::table('users')
+                ->where('id', $request->idd)
+                ->update([
+                    'profile_pic' => $imageName,
+                ]);
+                return redirect()->route('adminprofile.index');
+            }else{
+                return redirect()->back()->with('error', 'Picture format has error'); 
+            }
+            
+        }else{
+            return redirect()->back()->with('error', 'Have To Upload Photo');
+        }
     }
 }

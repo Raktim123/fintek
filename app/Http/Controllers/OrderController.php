@@ -6,8 +6,10 @@ use App\Models\Category;
 use App\Models\Course;
 use App\Models\Enroll;
 use App\Models\Order;
+use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redis;
+use Psy\Readline\Transient;
 
 class OrderController extends Controller
 {
@@ -52,9 +54,14 @@ class OrderController extends Controller
 
     public function payment_success(Request $request)
     {
+        
+
         $order = Order::find($request->order_id);
         $order->order_id = $request->paypal_order_id;
         $order->payment_id = $request->paypal_payment_id;
+        
+        $course = Course::find($order->course_id); 
+        $order->amount = $course->sale_price;
         $order->save();
 
         $enroll = new Enroll();
@@ -62,6 +69,11 @@ class OrderController extends Controller
         $enroll->student_id = auth()->user()->id;
         $enroll->order_id = $order->id;
         $enroll->save();
+
+        $transaction = new Transaction();
+        $transaction->type = "EARNING";
+        $transaction->ref_id = $order->id;
+        $transaction->save();
 
         return response()->json(["status" => true], 200);
     }

@@ -39,28 +39,14 @@
             <li>
               <a href="communication.html" title="Communication">
                 <i class="fa-solid fa-comment"></i>
-
                 <span>Communication</span>
               </a>
             </li>
             <li>
-              <a href="earnings.html" title="Earnings">
+              <a href="{{ route('instructor.earning') }}" title="Earnings">
                 <i class="fa-solid fa-money-bill"></i>
-
                 <span>Earnings</span>
               </a>
-            </li>
-            <li>
-              <a href="javascript:;" class="has-arrow" title="Help & Support">
-                <i class="fa-solid fa-question"></i>
-
-                <span>Help & Support</span>
-              </a>
-              <ul>
-                <li> <a href="{{route('help.create')}}"><i class="bx bx-right-arrow-alt"></i>Add Support</a></li>
-                <li> <a href="{{route('help.index')}}"><i class="bx bx-right-arrow-alt"></i>View Support</a></li>
-
-            </ul>
             </li>
             <li>
               <a href="{{route('enrolling.index')}}" title="Enrollment">
@@ -75,6 +61,16 @@
 
                 <span>Cource Wise Earning</span>
               </a>
+            </li>
+            <li>
+              <a href="javascript:;" class="has-arrow" title="Help & Support">
+                <i class="fa-solid fa-question"></i>
+                <span>Help & Support</span>
+              </a>
+              <ul>
+                <li> <a href="{{route('help.create')}}"><i class="bx bx-right-arrow-alt"></i>Add Support</a></li>
+                <li> <a href="{{route('help.index')}}"><i class="bx bx-right-arrow-alt"></i>View Support</a></li>
+              </ul>
             </li>
           </ul>
         </nav>
