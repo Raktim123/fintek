@@ -110,8 +110,8 @@
             <form method="POST" enctype="multipart/form-data" action="{{route('adminprofile.setpic'}}>
                 <div class="form-group">
                     <label for="profile-picture">Choose a picture</label>
-                    <input type="file" class="form-control-file" id="profile-picture" accept="image/*">
-                    <input type="hidden" class="form-control-file" id="profile-picture" accept="image/*">
+                    <input type="file" class="form-control-file" name="picture" accept="image/*">
+                    <input type="hidden" class="form-control-file" name="" accept="image/*">
                 </div>
                 <button type="submit" class="btn btn-primary">Upload Picture</button>
             </form>
