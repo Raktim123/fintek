@@ -115,6 +115,7 @@ Route::get("/admin", function () {
     Route::resource("adminprofile", Adminprofilemanagement::class);
     Route::resource("coursesinfo", AdminCourseController::class);
     Route::post('/addprivacy', [AdminCourseController::class, "updatecoursestat"])->name('stat.update');
+    Route::post('/editphoto', [AdminCourseController::class, "updatecoursestat"])->name('adminprofile.setpic');
 });
 
 require __DIR__.'/auth.php';
