@@ -9,13 +9,13 @@
         </div>
         <ul class="nav nav-tabs" id="myTab" role="tablist">
             <li class="nav-item" role="presentation">
-                <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Earning History</button>
+                <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Transactions</button>
             </li>
             <li class="nav-item" role="presentation">
-                <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Profile</button>
+                <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Get Paid</button>
             </li>
             <li class="nav-item" role="presentation">
-                <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false">Contact</button>
+                <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false">Payment Method</button>
             </li>
         </ul>
         <div class="tab-content" id="myTabContent">
@@ -24,49 +24,58 @@
                     <table class="table">
                         <thead>
                             <tr>
-                                <th>SL No.</th>
                                 <th>Date</th>
                                 <th>Type</th>
                                 <th>Description</th>
                                 <th>Course</th>
                                 <th>Amount</th>
                                 <th>Ref ID</th>
+                                <th>Status</th>
                             </tr>
                         </thead>
                         <tbody>
+                            <?php foreach($histories['History'] as $values) { ?>
                             <tr>
-                                <td>1</td>
-                                <td>abc123</td>
-                                <td>John Doe</td>
-                                <td>$500.00</td>
+                                <td>{{$values['Date']}}</td>
+                                <td>{{$values['Type']}}</td>
+                                <td>{{$values['Desc']}}</td>
+                                <td>{{$values['Name']}}</td>
+                                <td>{{"$".$values['Amount']}}</td>
+                                <td>{{$values['referrer']}}</td>
+                                <td>{{$values['status']}}</td>
                             </tr>
-
-                            <tr>
-                                <td>1</td>
-                                <td>abc123</td>
-                                <td>John Doe</td>
-                                <td>$500.00</td>
-                            </tr>
-
-                            <tr>
-                                <td>1</td>
-                                <td>abc123</td>
-                                <td>John Doe</td>
-                                <td>$500.00</td>
-                            </tr>
-
-                            <tr>
-                                <td>1</td>
-                                <td>abc123</td>
-                                <td>John Doe</td>
-                                <td>$500.00</td>
-                            </tr>
+                            <?php  }?>
                         </tbody>
                     </table>
                 </div>
             </div>
-            <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">...</div>
-            <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">...</div>
+            <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                <div class="container">
+                    <div class="card">
+                        <div class="card-body p-4">
+                            <h4>Available Balance</h4>
+                            <h5><span>$39.00</span></h4>
+                            <div class="d-flex justify-content-center align-items-center">
+                                <h3>To withdraw earnings, first you need to set up a withdrawal method.</h3>
+                                <p>It may take up to 3 days to activate your withdrawal method.</p>
+                                    
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+                <h4>Payment Method</h4>
+                <div class="table-responsive">
+                    <table class="table">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                    </table>
+                </div>
+            </div>
         </div>
 
 

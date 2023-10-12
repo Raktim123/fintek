@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 11, 2023 at 03:22 PM
+-- Generation Time: Oct 12, 2023 at 11:45 AM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 8.1.10
 
@@ -144,7 +144,8 @@ CREATE TABLE `courses` (
 
 INSERT INTO `courses` (`id`, `instructor_id`, `title`, `subtitle`, `thumbnail`, `language`, `category_id`, `level`, `price_type`, `price`, `sale_price`, `is_approved`, `created_at`, `updated_at`, `deleted_at`) VALUES
 (3, 1, 'CSS, Bootstrap, JavaScript And PHP Stack Complete Course', 'Learn Web Development Complete Course, CSS, Bootstrap And JavaScript complete Web development Stack course 2022', 'thumbnail/UTnSU7oKajhQVzfqAuPAR2BdYJMTE6cAuWHWcIqe.jpg', 'english(uk)', 6, 'BEGINNER', 'FREE', NULL, NULL, 1, '2023-09-27 05:44:08', '2023-09-27 05:44:08', NULL),
-(4, 1, 'CSS, Bootstrap, JavaScript And PHP Stack Complete Course', 'Learn Web Development Complete Course, CSS, Bootstrap And JavaScript complete Web development Stack course 2022', 'thumbnail/UTnSU7oKajhQVzfqAuPAR2BdYJMTE6cAuWHWcIqe.jpg', 'english(uk)', 6, 'BEGINNER', 'PAID', 1000.00, 599.00, 1, '2023-09-27 05:44:08', '2023-09-27 05:44:08', NULL);
+(4, 1, 'CSS, Bootstrap, JavaScript And PHP Stack Complete Course', 'Learn Web Development Complete Course, CSS, Bootstrap And JavaScript complete Web development Stack course 2022', 'thumbnail/UTnSU7oKajhQVzfqAuPAR2BdYJMTE6cAuWHWcIqe.jpg', 'english(uk)', 6, 'BEGINNER', 'PAID', 1000.00, 599.00, 1, '2023-09-27 05:44:08', '2023-09-27 05:44:08', NULL),
+(5, 5, 'Camping', 'how to do campfire', 'thumbnail/UTnSU7oKajhQVzfqAuPAR2BdYJMTE6cAuWHWcIqe.jpg', 'Bengali', 6, 'BEGINNER', 'PAID', 1000.00, 800.00, 0, '2023-10-12 05:33:19', '2023-10-12 05:33:19', '2023-10-12 05:33:19');
 
 -- --------------------------------------------------------
 
@@ -285,7 +286,8 @@ CREATE TABLE `orders` (
 --
 
 INSERT INTO `orders` (`id`, `purchase_by`, `course_id`, `order_id`, `payment_id`, `payment_status`, `amount`, `created_at`, `updated_at`) VALUES
-(32, 1, 4, '6R592890YD431690P', '6R592890YD431690P', NULL, 599, '2023-10-11 07:43:26', '2023-10-11 07:43:56');
+(32, 1, 4, '6R592890YD431690P', '6R592890YD431690P', NULL, 599, '2023-10-11 07:43:26', '2023-10-11 07:43:56'),
+(33, 2, 5, 'sdsdsdsdsd', 'sdsdsdsdsd', NULL, 800, '2023-10-12 05:34:57', '2023-10-12 05:17:02');
 
 -- --------------------------------------------------------
 
@@ -384,7 +386,10 @@ CREATE TABLE `transactions` (
 --
 
 INSERT INTO `transactions` (`id`, `type`, `ref_id`, `created_at`, `updated_at`) VALUES
-(1, 'EARNING', 1, '2023-10-11 13:15:26', '2023-10-11 13:15:26');
+(1, 'EARNING', 32, '2023-10-11 13:15:26', '2023-10-11 13:15:26'),
+(2, 'WITHDRAWL', 1, '2023-10-12 05:17:53', '2023-10-12 05:17:53'),
+(3, 'EARNING', 33, '2023-10-12 05:37:15', '2023-10-12 05:37:15'),
+(4, 'WITHDRAWL', 2, '2023-10-12 06:53:57', '2023-10-12 06:53:57');
 
 -- --------------------------------------------------------
 
@@ -412,7 +417,33 @@ INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `re
 (1, 'Raktim Banerjee', 'raktimbanerjee9@gmail.com', NULL, '$2y$10$MWx91WGtzaQiLXGN5voFO.Pxv.4r.YNCAc6gBwiTAIMal/dTbjNAq', NULL, '', '2023-09-26 07:52:47', '2023-09-26 07:52:47'),
 (2, 'Susmita Sahoo', 'admin@gmail.com', NULL, '$2y$10$5G7lSBqkVs7WJrHTu5mwee8F.vgSzweya0w4LR/Fr6K/YOiWD7J5.', NULL, '', '2023-10-05 02:08:05', '2023-10-05 02:08:05'),
 (3, 'Tamoghna Gupta', 'tamoghnadeveloper@gmail.com', NULL, '$2y$10$8YkpebazqsihfFV.7HlfSuhIPDkdvkSxHMhQJRfi9iC8ttNlMdYye', NULL, '', '2023-10-05 07:20:21', '2023-10-11 05:45:57'),
-(4, 'Tamoghna Gupta', 'tamoghnadevelopers@gmail.com', NULL, '$2y$10$P621zG9eYTmMULFvNf.A3eOWlRpdK7zGGuIKrTT5997Uuv46tv5aa', NULL, 'banner/ZGy1dGxauABvUPdzWUXJMf4rNq4Ei2GjbjqqqooX.jpg', '2023-10-11 06:28:18', '2023-10-11 06:28:18');
+(4, 'Tamoghna Gupta', 'tamoghnadevelopers@gmail.com', NULL, '$2y$10$P621zG9eYTmMULFvNf.A3eOWlRpdK7zGGuIKrTT5997Uuv46tv5aa', NULL, 'banner/ZGy1dGxauABvUPdzWUXJMf4rNq4Ei2GjbjqqqooX.jpg', '2023-10-11 06:28:18', '2023-10-11 06:28:18'),
+(5, 'Tamoghna Gupta', 'tamoghnadeveloperss@gmail.com', NULL, '$2y$10$wVfN2ViwU6H3xWeD/xzz0./kTM7AOIy1cxwjJyevR/3EjEXXMZQV.', NULL, NULL, '2023-10-11 23:10:21', '2023-10-11 23:10:21');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `withdrawals`
+--
+
+CREATE TABLE `withdrawals` (
+  `id` int(11) NOT NULL,
+  `withdrawal_by` int(11) DEFAULT NULL,
+  `amount` double(11,2) DEFAULT NULL,
+  `withdrawal_status` varchar(255) DEFAULT NULL,
+  `file` varchar(255) DEFAULT NULL,
+  `reference` text DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `withdrawals`
+--
+
+INSERT INTO `withdrawals` (`id`, `withdrawal_by`, `amount`, `withdrawal_status`, `file`, `reference`, `created_at`, `updated_at`) VALUES
+(1, 1, 300.00, '', NULL, NULL, '2023-10-12 05:27:14', '2023-10-12 05:27:14'),
+(2, 5, 200.00, NULL, NULL, NULL, '2023-10-12 06:53:46', '2023-10-12 06:53:46');
 
 --
 -- Indexes for dumped tables
@@ -526,6 +557,12 @@ ALTER TABLE `users`
   ADD UNIQUE KEY `users_email_unique` (`email`);
 
 --
+-- Indexes for table `withdrawals`
+--
+ALTER TABLE `withdrawals`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -557,7 +594,7 @@ ALTER TABLE `cms`
 -- AUTO_INCREMENT for table `courses`
 --
 ALTER TABLE `courses`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `course_metas`
@@ -593,7 +630,7 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
@@ -617,13 +654,19 @@ ALTER TABLE `supportmessagetrackers`
 -- AUTO_INCREMENT for table `transactions`
 --
 ALTER TABLE `transactions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `withdrawals`
+--
+ALTER TABLE `withdrawals`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Constraints for dumped tables

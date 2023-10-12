@@ -77,6 +77,7 @@ Route::middleware('auth')->prefix("instructor")->group(function () {
     // Category Routes
     Route::post("category/subcategories", [CategoryController::class, "get_subcategories"])->name("category.subcategories");
     Route::resource("category", CategoryController::class);
+    Route::get("transactionhistories", [InstructorController::class, "transaction"])->name("instructor.transaction");
     // Course Routes
     Route::resource("course", CourseController::class);
     // Course Meta Routes

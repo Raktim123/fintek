@@ -72,6 +72,12 @@
                 <li> <a href="{{route('help.index')}}"><i class="bx bx-right-arrow-alt"></i>View Support</a></li>
               </ul>
             </li>
+            <li>
+              <a href="{{route('instructor.transaction')}}" title="Enrollment">
+                <i class="fa-solid fa-money-bill"></i>
+                  <span>Transaction History</span>
+              </a>
+            </li>
           </ul>
         </nav>
       </div>
