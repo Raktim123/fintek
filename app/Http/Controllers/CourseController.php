@@ -37,6 +37,7 @@ class CourseController extends Controller
     {
         $course = new Course();
     
+        $course->instructor_id = auth()->user()->id;
         $course->title = $request->title;
         $course->subtitle = $request->subtitle;
         $course->language = $request->language;
@@ -70,7 +71,19 @@ class CourseController extends Controller
      */
     public function show(course $course)
     {
+        $categories = Category::select("id", "name")->where("parent_id", 0)->get();
+        $course_meta = CourseMeta::where("course_id", $course->id)->first();
+        $chapters = [];
 
+        $course_chapters = Chapter::where("course_id", $course->id)->get();
+        foreach ($course_chapters as $chapter) {
+            $chapter->lessons = Lesson::where("chapter_id", $chapter->id)->get();
+            $chapters[] = $chapter;
+        }
+
+        $course->chapters = $chapters;
+
+        return view("instructor.course.create", ["categories" => $categories, "course" => $course, "course_meta" => $course_meta]);
     }
 
     /**

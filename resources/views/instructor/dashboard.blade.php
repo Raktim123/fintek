@@ -12,7 +12,7 @@
             <div class="db-course-card bg--body">
                 <figure class="db-course-card__thumbnail position-relative ratio ratio-1x1">
                     <a href="#" target="_blank">
-                        <img src="{{ asset('assets/instructor/images/course-1.jpg') }}" alt="" class="w-100 h-100 object-fit-cover" />
+                        <img src="{{asset(Storage::url($course->thumbnail))}}" alt="" class="w-100 h-100 object-fit-cover" />
                     </a>
                 </figure>
                 <div class="db-course-card__body">

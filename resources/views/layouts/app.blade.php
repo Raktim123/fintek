@@ -56,7 +56,7 @@
                                 <a class="dropdown-item" href="myprofile.php">Wishlist</a>
                             </li>
                             <li>
-                                <a class="dropdown-item" href="{{ route('instructor.dashboard') }}">Become An Instructor</a>
+                                <a class="dropdown-item" href="{{ route('instructor.dashboard') }}">Instructor Dashboard</a>
                             </li>
                             <li>
                                 <a class="dropdown-item" href="myprofile.php">Notification</a>

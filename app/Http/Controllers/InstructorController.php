@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Course;
 use Illuminate\Http\Request;
+use App\Models\PaymentMethod;
 use App\Models\Transaction;
 use App\Models\Order;
 use Illuminate\Support\Facades\DB;
@@ -20,6 +21,24 @@ class InstructorController extends Controller
     public function earning(Request $request)
     {
         return view("instructor.earning");
+    }
+
+    public function add_payment_method(Request $request)
+    {
+        $payment_method = new PaymentMethod();
+        
+        $payment_method->instructor_id = $request->instructor_id;
+        $payment_method->type = $request->type;
+        $payment_method->details = $request->details;
+
+        if($payment_method->save()) 
+        {
+            return response()->json(["status" => true], 200);
+        }
+        else 
+        {
+            return response()->json(["status" => true], 200);
+        }
     }
 
     public function transaction(){

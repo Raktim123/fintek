@@ -58,7 +58,9 @@
                             <div class="d-flex justify-content-center align-items-center">
                                 <h3>To withdraw earnings, first you need to set up a withdrawal method.</h3>
                                 <p>It may take up to 3 days to activate your withdrawal method.</p>
-                                    
+                                <div>
+                                    <button class="btn btn--primary" data-bs-toggle="modal" data-bs-target="#addPaymentFormModal">Add Payment</button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -84,6 +86,60 @@
             <button class="btn btn--primary" data-bs-toggle="modal" data-bs-target="#redeemFormModal">Redeem Earning</button>
         </div>
 
+        <div class="modal fade" id="addPaymentFormModal" tabindex="-1" role="dialog" aria-labelledby="addPaymentFormModal" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                  <div class="modal-header border-0">
+                    <h4 class="mb-0 text--dark fw-bold">Add Payment</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    <div class="add-payment-form-wrap">
+                      <form action="#" autocomplete="off">
+                        <div class="mb--20">
+                          <p class="mb-3 text--dark fw-medium">Choose Option:</p>
+                          <ul class="main-options">
+                            <li>
+                              <input type="radio" name="apf_type" value="bank account" id="apfType1">
+                              <label for="apfType1">Bank Account</label>
+                            </li>
+                            <li>
+                              <input type="radio" name="apf_type" value="paypal" id="apfType2">
+                              <label for="apfType2">Paypal</label>
+                            </li>
+                          </ul>
+                        </div>
+
+                        <fieldset class="mb--20 d-none" data-category="bank account">
+                          <div class="mb-3">
+                            <input type="text" name="apf_bank_name" placeholder="Enter Bank Name" required>
+                          </div>
+                          <div class="mb-3">
+                            <input type="number" name="apf_account_no" placeholder="Enter account number" required>
+                          </div>
+                          <div class="mb-3">
+                            <input type="text" name="apf_ifsc_code" placeholder="Enter IFSC code" required>
+                          </div>
+                        </fieldset>
+
+                        <fieldset class="mb--20 d-none" data-category="paypal">
+                          <div>
+                            <input type="text" name="apf_paypal_url" placeholder="Enter paypal url" required>
+                          </div>
+                        </fieldset>
+
+                        <div class="submit-btn-container d-none">
+                          <button type="submit" class="btn btn--primary w-100">Add</button>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <!-- Redeem Modal -->
         <div class="modal fade" id="redeemFormModal" tabindex="-1" role="dialog" aria-labelledby="redeemFormModal" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
@@ -107,6 +163,8 @@
                 </div>
             </div>
         </div>
+
+        
     </div>
 </div>
 @stop

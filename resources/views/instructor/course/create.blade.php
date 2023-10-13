@@ -119,7 +119,11 @@
                           <div class="row">
                             <div class="col-12 col-md-6">
                               <div class="img-container" id="thumbnailPreviewContainer">
-                                <img src="{{asset('assets/instructor')}}/images/placeholder-thumbnail.jpg" alt="" class="w-100 h-100 object-fit-cover" />
+                                @if(isset($course))
+                                  <img src="{{asset(Storage::url($course->thumbnail))}}" alt="" class="w-100 h-100 object-fit-cover" />
+                                @else
+                                  <img src="{{asset('assets/instructor')}}/images/placeholder-thumbnail.jpg" alt="" class="w-100 h-100 object-fit-cover" />
+                                @endif
                               </div>
                             </div>
                             <div class="col-12 col-md-6">
@@ -252,14 +256,15 @@
                             <p><strong>What will students learn in your course?</strong></p>
                             <p>You must enter at least 4 learning objectives or outcomes that learners can expect to achieve after completing your course.</p>
                           </div>
-
+                          <?php $this_to_learn = json_decode($course_meta->things_to_learn) ?>
                           <ul class="intended_what_will_student_learn inputs-list">
+                            @if($this_to_learn != null || $this_to_learn != "[null]")
+                            @foreach($this_to_learn as $learn)
                             <li>
-                              <input type="text" name="things_to_learn[]" placeholder="Example: Define the roles and responsibilities of a project manager" />
+                              <input type="text" name="things_to_learn[]" value="{{$learn}}" placeholder="Example: Define the roles and responsibilities of a project manager" />
                             </li>
-                            <li>
-                              <input type="text" name="things_to_learn[]" placeholder="Example: Estimate project timelines and budgets" />
-                            </li>
+                            @endforeach
+                            @endif
                           </ul>
                           <button type="button" class="intended_what_will_student_learn_add_btn btn--add-response"><i class="fa-solid fa-plus"></i>Add more to your response</button>
                         </fieldset>
@@ -270,10 +275,15 @@
                             <p>List the required skills, experience, tools or equipment learners should have prior to taking your course. If there are no requirements, use this space as an opportunity to lower the barrier for beginners.</p>
                           </div>
 
+                          <?php $requirements = json_decode($course_meta->requirements) ?>
                           <ul class="intended_requirements inputs-list">
+                            @if($requirements != null || $requirements != "[null]")
+                            @foreach($requirements as $requirement)
                             <li>
-                              <input type="text" name="requirements[]" placeholder="Example: No programming experience needed. You will learn everything you need to know" />
+                              <input type="text" name="requirements[]" value="{{$requirement}}" placeholder="Example: No programming experience needed. You will learn everything you need to know" />
                             </li>
+                            @endforeach
+                            @endif
                           </ul>
                           <button type="button" class="intended_requirements_add_btn btn--add-response"><i class="fa-solid fa-plus"></i>Add more to your response</button>
                         </fieldset>
@@ -284,10 +294,15 @@
                             <p>Write a clear description of the <a href="#">intended learners</a> for your course who will find your course content valuable. This will help you attract the right learners to your course.</p>
                           </div>
 
+                          <?php $target_audiences = json_decode($course_meta->target_audience) ?>
                           <ul class="inputs-list intended_course_for">
+                            @if($target_audiences != null || $target_audiences != "[null]")
+                            @foreach($target_audiences as $audience)
                             <li>
-                              <input type="text" name="target_audience[]" placeholder="Example: Beginner Python developers curious about data science" />
+                              <input type="text" name="target_audience[]" value="{{$audience}}" placeholder="Example: Beginner Python developers curious about data science" />
                             </li>
+                            @endforeach
+                            @endif
                           </ul>
                           <button type="button" class="intended_course_for_add_btn btn--add-response"><i class="fa-solid fa-plus"></i>Add more to your response</button>
                         </fieldset>
@@ -912,20 +927,20 @@
 
     // Global Fetch Form Submitter
     $("#intended_learners_form").on("submit", function(event) {
-      event.preventDefault()
+      // event.preventDefault()
 
-      fetch(event.target.action, {
-          headers: {
-            "X-CSRF-Token": $('input[name="_token"]').val()
-          },
-          method: "PUT",
-          body: new FormData(document.getElementById(event.target.id))
-        })
-        .then(response => response.json())
-        .then(data => {
-          alert(data.message)
-        })
-        .catch(error => console.log(error))
+      // fetch(event.target.action, {
+      //     headers: {
+      //       "X-CSRF-Token": $('input[name="_token"]').val()
+      //     },
+      //     method: "PUT",
+      //     body: new FormData(document.getElementById(event.target.id))
+      //   })
+      //   .then(response => response.json())
+      //   .then(data => {
+      //     alert(data.message)
+      //   })
+      //   .catch(error => console.log(error))
     })
   </script>
 

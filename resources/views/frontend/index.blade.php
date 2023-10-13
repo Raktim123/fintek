@@ -111,12 +111,13 @@
                                         {{ $course->subtitle }}
                                     </p>
                                     <ul>
-                                        <?php
-                                        $arr = json_decode($course->things_to_learn);
-                                        ?>
+                                        <?php $arr = json_decode($course->things_to_learn); ?>
+                                        
+                                        @if($arr)
                                         @foreach($arr as $data)
                                         <li>{{ $data }}</li>
                                         @endforeach
+                                        @endif
                                     </ul>
                                     <div class="addtocart__wrapp">
                                         <a href="productdetails.php" class="cart">Add To Cart</a>

@@ -119,7 +119,7 @@
                           <div class="row">
                             <div class="col-12 col-md-6">
                               <div class="img-container" id="thumbnailPreviewContainer">
-                                <img src="{{asset('assets/instructor')}}/images/placeholder-thumbnail.jpg" alt="" class="w-100 h-100 object-fit-cover" />
+                                <img src="{{asset(Storage::url($course->thumbnail))}}" alt="" class="w-100 h-100 object-fit-cover" />
                               </div>
                             </div>
                             <div class="col-12 col-md-6">

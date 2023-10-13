@@ -40,18 +40,6 @@
     <!-- toastr css -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
     <title>admin Panel</title>
-
-    <style>
-        .is-invalid {
-            border-color: red;
-        }
-
-        input,
-        textarea {
-            text-transform: uppercase;
-        }
-    </style>
-
 </head>
 
 <body class="pace-done">
@@ -106,17 +94,6 @@
             placeholder: $(this).data('placeholder'),
             allowClear: Boolean($(this).data('allow-clear')),
         });
-    </script>
-    <script>
-        $(document).ready(function() {
-            $("input[type=text]").keyup(function() {
-                $(this).val($(this).val().toUpperCase());
-            });
-
-            $("textarea").keyup(function() {
-                $(this).val($(this).val().toUpperCase());
-            });
-        })
     </script>
 
     @if(Session::has('success'))
