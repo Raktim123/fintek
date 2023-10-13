@@ -2,19 +2,25 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cart;
 use App\Models\Category;
 use App\Models\Chapter;
 use App\Models\Course;
 use App\Models\CourseMeta;
 use App\Models\Enroll;
 use App\Models\Lesson;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
-use DB;
+
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
     public function index()
     {
+        $ban = DB::select("select * from banner");
+        $banners = json_decode(json_encode($ban), true);  
+
         $menus = $this->get_menus();
 
         $records = [];
@@ -31,7 +37,7 @@ class HomeController extends Controller
             }
         }           
 
-        return view('frontend.index', ["records" => $records, "menus" => $menus]);
+        return view('frontend.index', ["records" => $records, "menus" => $menus, "banners" => $banners]);
     }
 
     public function single_course(Request $request) 
@@ -88,6 +94,152 @@ class HomeController extends Controller
            }
            array_push($menu['category'], $arr1);
          }
-        //return $menu;
+        return $menu;
+    }
+
+    public function add_cart(Request $request)
+    {
+        if(Auth::check())
+        {
+            $is_exist = Cart::where(["student_id" => auth()->user()->id, "course_id" => $request->course_id])->first();
+
+            if($is_exist) {
+                return response()->json(["status" => false, "message" => "Course is already added to the cart"], 400);
+            }
+
+            $cart = new Cart();
+            $cart->student_id = auth()->user()->id;
+            $cart->course_id = $request->course_id;
+
+
+            if($cart->save())
+            {
+                return response()->json(["status" => false, "message" => "Course is added to the cart"], 400);
+            }
+            else
+            {
+                return response()->json(["status" => false, "message" => "Something went wrong"], 400);
+            }
+        }
+        else
+        {
+            if($request->session()->exists('carts') == false)
+            {
+                $request->session()->put('carts', []);
+            }
+            else
+            {
+                $carts = $request->session()->get("carts");
+                foreach($carts as $cart) {
+                    if($cart['course_id'] == $request->course_id) {
+                        return response()->json(["status" => false, "message" => "Course is already added to the cart"], 400);
+                    }
+                }
+
+                $carts[] = [
+                    "student_id" => "",
+                    "course_id" => $request->course_id,
+                ];
+
+                $request->session()->put('carts', $carts);
+
+                return response()->json(["status" => true, "message" => "Course is added to the cart"], 200);
+            }
+        }
+    }
+
+    public function add_wishlist(Request $request)
+    {
+        if (Auth::check()) {
+            $is_exist = Cart::where(["student_id" => auth()->user()->id, "course_id" => $request->course_id])->first();
+
+            if ($is_exist) {
+                return response()->json(["status" => false, "message" => "Course is already added to the cart"], 400);
+            }
+
+            $cart = new Cart();
+            $cart->student_id = auth()->user()->id;
+            $cart->course_id = $request->course_id;
+
+
+            if ($cart->save()) {
+                return response()->json(["status" => false, "message" => "Course is added to the cart"], 400);
+            } else {
+                return response()->json(["status" => false, "message" => "Something went wrong"], 400);
+            }
+        } else {
+            if ($request->session()->exists('carts') == false) {
+                $request->session()->put('carts', []);
+            } else {
+                $carts = $request->session()->get("carts");
+                foreach ($carts as $cart) {
+                    if ($cart['course_id'] == $request->course_id) {
+                        return response()->json(["status" => false, "message" => "Course is already added to the cart"], 400);
+                    }
+                }
+
+                $carts[] = [
+                    "student_id" => "",
+                    "course_id" => $request->course_id,
+                ];
+
+                $request->session()->put('carts', $carts);
+
+                return response()->json(["status" => true, "message" => "Course is added to the cart"], 200);
+            }
+        }
+    }
+
+    public function tc()
+    {
+       $tc = $this->main_query();
+       // dd($tc);
+       $terms = $tc[0]->termsncond;
+      
+
+        $menus = $this->get_menus();
+
+        return view("frontend.tc", ["menus" => $menus, "data" => $terms]);
+
+    }
+
+    public function pp()
+    {
+        $tc = $this->main_query();
+        $privacy = $tc[0]->privacy;
+
+        $menus = $this->get_menus();
+
+        return view("frontend.pp", ["menus" => $menus, "data" =>  $privacy]);
+    }
+
+    public function main_query(){
+        $ss = DB::select("select * from cms");
+        
+        return $ss;
+    }
+
+    public function cart(Request $request)
+    {
+        $menus = $this->get_menus();
+        $records = [];
+        if (Auth::check()) 
+        {
+            $carts = Cart::where("student_id", auth()->user()->id)->get();
+        }
+        else 
+        {
+            if ($request->session()->exists('carts')) 
+            {
+                $carts = $request->session()->get("carts");
+            } 
+        }
+
+        foreach($carts as $item)
+        {
+            $records[] = Course::find($item->course_id);
+        }
+
+        return view("frontend.cart", ["records" => $records, "menus" => $menus])
     }
 }

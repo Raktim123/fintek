@@ -58,7 +58,7 @@ class CourseController extends Controller
             CourseMeta::create(["course_id" => $course->id]);
 
             $request->session("success", "New course has been created");
-            return redirect()->route("course.show", $course->id);
+            return redirect()->route("course.edit", $course->id);
         }
         else {
             $request->session("error", "Sorry! Something went wrong.");

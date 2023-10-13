@@ -127,4 +127,12 @@ $(document).ready(function () {
     }
   });
 
+  // ---> Add Payment Form
+  $(".add-payment-form-wrap .main-options input").on("change", function () {
+    $(".add-payment-form-wrap form fieldset").addClass("d-none");
+    $(".add-payment-form-wrap form fieldset[data-category='" + $(this).val() + "']").removeClass("d-none");
+
+    $(".add-payment-form-wrap .submit-btn-container").removeClass("d-none");
+  })
+
 });

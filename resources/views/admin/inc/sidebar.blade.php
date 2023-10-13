@@ -47,7 +47,7 @@
             </ul>
         </li>
         <li>
-            <a href="javascript:;" class="has-arrow">
+            <a href="{{ route('admin.get_students') }}">
                 <div class="parent-icon"><i class='bx bx-user-circle'></i>
                 </div>
                 <div class="menu-title">Students</div>
@@ -58,10 +58,10 @@
             </ul>
         </li>
         <li>
-            <a href="javascript:;" class="has-arrow">
+            <a href="{{ route('admin.get_instructors') }}">
                 <div class="parent-icon"><i class='bx bx-user-circle'></i>
                 </div>
-                <div class="menu-title">Instructor</div>
+                <div class="menu-title">Instructors</div>
             </a>
             <ul>
                 <!-- <li> <a href="#"><i class="bx bx-right-arrow-alt"></i>Add Category</a></li> -->
@@ -74,7 +74,7 @@
                 </div>
                 <div class="menu-title">Course</div>
             </a>
-           
+
         </li>
         <li>
             <a href="{{route('helps.index')}}" class="">
@@ -82,7 +82,7 @@
                 </div>
                 <div class="menu-title">Help & Support</div>
             </a>
-           
+
         </li>
         <li>
             <a href="{{route('adminprofile.index')}}" class="">
@@ -90,7 +90,7 @@
                 </div>
                 <div class="menu-title">Profile Management</div>
             </a>
-           
+
         </li>
         <!--end navigation-->
     </ul>

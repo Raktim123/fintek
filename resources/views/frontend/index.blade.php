@@ -4,36 +4,23 @@
 <div class="main__body__wrapp">
     <div class="header__banner__main">
         <div class="theme_carousel owl-theme owl-carousel" data-options='{"loop": true, "margin": 25, "autoheight":true, "lazyload":true, "nav":true, "dots":false, "autoplay":true, "autoplayTimeout": 6000, "smartSpeed": 300, "responsive":{ "0" :{ "items": "1" }, "450" :{ "items" : "1" } , "767" :{ "items" : "1" } , "1000":{ "items" : "1" }}}'>
+            @foreach($banners as $banner)
             <div class="slide-item">
                 <div class="image__box">
                     <a href="#" class="ms-auto">
-                        <img src="{{ asset('assets/frontend/images/bannervideo.jpg') }}" alt="" />
+                        <img src="{{ asset(Storage::url($banner['banner_img'])) }}" alt="" />
                     </a>
                 </div>
                 <div class="banner__content">
                     <div class="container">
                         <div class="col-lg-5 col-md-12 col-sm-12 p-0">
-                            <h1>Empowerment Through <span>Learning</span></h1>
-                            <a href="contact.php" class="get__star">Get started Now</a>
+                            <h1>{{$banner['banner_title']}}</h1>
+                            <a target="_blank" href="{{$banner['banner_link']}}" class="get__star">Get started Now</a>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="slide-item">
-                <div class="image__box">
-                    <a href="#" class="ms-auto">
-                        <img src="{{ asset('assets/frontend/images/bannervideo.jpg') }}" alt="" />
-                    </a>
-                </div>
-                <div class="banner__content">
-                    <div class="container">
-                        <div class="col-lg-5 col-md-12 col-sm-12 p-0">
-                            <h1>Empowerment Through <span>Learning</span></h1>
-                            <a href="contact.php" class="get__star">Get started Now</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            @endforeach
         </div>
     </div>
     <div class="coun__wrapp">
@@ -112,7 +99,7 @@
                                     </p>
                                     <ul>
                                         <?php $arr = json_decode($course->things_to_learn); ?>
-                                        
+
                                         @if($arr)
                                         @foreach($arr as $data)
                                         <li>{{ $data }}</li>
@@ -120,10 +107,9 @@
                                         @endif
                                     </ul>
                                     <div class="addtocart__wrapp">
-                                        <a href="productdetails.php" class="cart">Add To Cart</a>
-                                        <a href="productdetails.php" class="heart"><i class="fa-regular fa-heart"></i></a>
-                                        <a href="{{ route('course.single', $course->id) }}" class="heart"><i class="fa-solid fa-play"></i></a>
-
+                                        <a href="javascript:void(0)" class="cart" data-id="{{$course->id}}">Add To Cart</button>
+                                            <a href="javascript:void(0)" class="heart" data-id="{{$course->id}}"><i class=" fa-regular fa-heart"></i></a>
+                                            <a href="{{ route('course.single', $course->id) }}" class="heart"><i class="fa-solid fa-play"></i></a>
                                     </div>
                                 </div>
                             </div>
@@ -212,4 +198,23 @@
         </div>
     </div>
 </div>
+
+<script script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+<script>
+    $(document).on("click", ".cart", function(event) {
+        event.preventDefault()
+        let id = $(this).data("id")
+        console.log(id)
+
+        fetch(`{{url("add_cart")}}/${id}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.status) {
+                    alert("Course added to the cart")
+                } else {
+                    alert(data.message)
+                }
+            })
+    })
+</script>
 @stop

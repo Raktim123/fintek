@@ -73,7 +73,7 @@
                       <li>
                         <a href="#" data-target="coursePromotionsBlock"><span></span>Promotions</a>
                       </li>
-                      <li>
+                      <li class="d-none">
                         <a href="#" data-target="courseMessageBlock"><span></span>Course Message</a>
                       </li>
                     </ul>
@@ -129,7 +129,7 @@
                                   <span>No file Selected</span>
                                   <span>Upload File</span>
                                 </label>
-                                <input type="file" name="thumbnail" class="custom-file-upload-input" id="acfCourseUploadImgButton" required />
+                                <input type="file" name="thumbnail" class="form-control" id="acfCourseUploadImgButton" required />
                                 <span class="helper-text">Upload your course image here. It must meet our course image quality standards to be accepted. Important guidelines: 750x422 pixels; .jpg, .jpeg,. gif, or .png. no text on the image.</span>
                               </div>
                             </div>
@@ -254,11 +254,14 @@
                           </div>
 
                           <ul class="intended_what_will_student_learn inputs-list">
-                            @foreach(json_decode($course_meta->things_to_learn) as $data)
+                            <?php $things_to_learn = json_decode($course_meta->things_to_learn) ?>
+                            @if(is_null($things_to_learn) == false)
+                            @foreach($things_to_learn as $learn)
                             <li>
-                              <input type="text" name="things_to_learn[]" placeholder="Example: Define the roles and responsibilities of a project manager" value="{{ $data }}" />
+                              <input type="text" name="things_to_learn[]" placeholder="Example: Define the roles and responsibilities of a project manager" value="{{$learn}}" />
                             </li>
                             @endforeach
+                            @endif
                           </ul>
                           <button type="button" class="intended_what_will_student_learn_add_btn btn--add-response"><i class="fa-solid fa-plus"></i>Add more to your response</button>
                         </fieldset>
@@ -270,11 +273,14 @@
                           </div>
 
                           <ul class="intended_requirements inputs-list">
-                            @foreach(json_decode($course_meta->requirements) as $data)
+                            <?php $requirements = json_decode($course_meta->requirements) ?>
+                            @if(is_null($requirements) == false)
+                            @foreach($requirements as $requirement)
                             <li>
-                              <input type="text" name="requirements[]" placeholder="Example: No programming experience needed. You will learn everything you need to know" value="{{ $data }}" />
+                              <input type="text" name="requirements[]" placeholder="Example: No programming experience needed. You will learn everything you need to know" value="{{$requirement}}" />
                             </li>
                             @endforeach
+                            @endif
                           </ul>
                           <button type="button" class="intended_requirements_add_btn btn--add-response"><i class="fa-solid fa-plus"></i>Add more to your response</button>
                         </fieldset>
@@ -286,11 +292,14 @@
                           </div>
 
                           <ul class="inputs-list intended_course_for">
-                            @foreach(json_decode($course_meta->requirements) as $data)
+                            <?php $target_audiences = json_decode($course_meta->target_audience) ?>
+                            @if(is_null($target_audiences) == false)
+                            @foreach($target_audiences as $target_audience)
                             <li>
-                              <input type="text" name="target_audience[]" placeholder="Example: Beginner Python developers curious about data science" value="{{ $data }}" />
+                              <input type="text" name="target_audience[]" placeholder="Example: Beginner Python developers curious about data science" value="{{$target_audience}}" />
                             </li>
                             @endforeach
+                            @endif
                           </ul>
                           <button type="button" class="intended_course_for_add_btn btn--add-response"><i class="fa-solid fa-plus"></i>Add more to your response</button>
                         </fieldset>
@@ -350,12 +359,11 @@
                               <div class="cur-section__body">
                                 <ul class="chapter-list">
                                   @foreach($chapter->lessons as $lesson)
-                                  <li class="chapter-block" data-lesson_id="${data.lesson.id}">
+                                  <li class="chapter-block" data-lesson_id="{{$lesson->id}}">
                                     <div class="chapter-block__header">
                                       <div class="row">
                                         <div class="col-9">
                                           <span class="me-2"><i class="fa-solid fa-circle-check me-1"></i> Lecture {{ $loop->iteration }}:</span>
-                                          <span><i class="fa-regular fa-file me-1"></i>Introduction</span>
                                         </div>
                                         <div class="col-3">
                                           <div class="cta-btns text-end">
@@ -368,16 +376,16 @@
                                     <div class="chapter-block__body lesson_block">
                                       <div>
                                         <label class="label">Chapter Title</label>
-                                        <input type="text" name="lesson_title" value="" placeholder="Enter your chapter title">
+                                        <input type="text" name="lesson_title" placeholder="Enter your chapter title" value="{{$lesson->title}}">
                                       </div>
-
+                                      @if(is_null($lesson->content) == false)
+                                      <div>
+                                        <iframe width="100%" height="360" src="<?php echo asset(Storage::url($lesson->content)); ?>" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                                      </div>
+                                      @endif
                                       <div class="position-relative">
                                         <label class="label">Upload Video</label>
-                                        <label for="chapter1VideoBtn" class="custom-file-upload-btn">
-                                          <span>No file Selected</span>
-                                          <span>Upload File</span>
-                                        </label>
-                                        <input type="file" name="lesson_video" class="custom-file-upload-input" id="chapter1VideoBtn">
+                                        <input type="file" name="lesson_video" class="form-control" id="chapter1VideoBtn">
                                       </div>
                                     </div>
                                   </li>
@@ -666,7 +674,6 @@
                       <div class="row">
                         <div class="col-9">
                           <span class="me-2"><i class="fa-solid fa-circle-check me-1"></i> Lecture 1:</span>
-                          <span><i class="fa-regular fa-file me-1"></i>Introduction</span>
                         </div>
                         <div class="col-3">
                           <div class="cta-btns text-end">
@@ -684,11 +691,7 @@
 
                       <div class="position-relative">
                         <label class="label">Upload Video</label>
-                        <label for="chapter1VideoBtn" class="custom-file-upload-btn">
-                          <span>No file Selected</span>
-                          <span>Upload File</span>
-                        </label>
-                        <input type="file" name="lesson_video" class="custom-file-upload-input" id="chapter1VideoBtn">
+                        <input type="file" name="lesson_video" class="form-control" id="chapter1VideoBtn">
                       </div>
 
                       <!-- <div class="position-relative">
@@ -697,7 +700,7 @@
                           <span>No file Selected</span>
                           <span>Upload File</span>
                         </label>
-                        <input type="file" name="chapter_1_slide_" class="custom-file-upload-input" id="chapter1SlideBtn" />
+                        <input type="file" name="chapter_1_slide_" class="form-control" id="chapter1SlideBtn" />
                       </div> -->
 
                       <!-- <div class="position-relative">
@@ -706,7 +709,7 @@
                           <span>No file Selected</span>
                           <span>Upload File</span>
                         </label>
-                        <input type="file" name="chapter_1_article" class="custom-file-upload-input" id="chapter1ArticleBtn" />
+                        <input type="file" name="chapter_1_article" class="form-control" id="chapter1ArticleBtn" />
                       </div> -->
                     </div>
                   </li>
@@ -775,7 +778,6 @@
                   <div class="row">
                     <div class="col-9">
                       <span class="me-2"><i class="fa-solid fa-circle-check me-1"></i> Lecture 1:</span>
-                      <span><i class="fa-regular fa-file me-1"></i>Introduction</span>
                     </div>
                     <div class="col-3">
                       <div class="cta-btns text-end">
@@ -793,11 +795,7 @@
             
                   <div class="position-relative">
                     <label class="label">Upload Video</label>
-                    <label for="chapter1VideoBtn" class="custom-file-upload-btn">
-                      <span>No file Selected</span>
-                      <span>Upload File</span>
-                    </label>
-                    <input type="file" name="lesson_video" class="custom-file-upload-input" id="chapter1VideoBtn">
+                    <input type="file" name="lesson_video" class="form-control" id="chapter1VideoBtn">
                   </div>
                 </div>
             </li>`;
@@ -902,15 +900,14 @@
             },
           })
           .then((response) => {
-            console.log(response.data);
+            console.log(response.data)
+            event.target.value = ""
           })
           .catch((error) => {
             console.error(error);
+            event.target.value = ""
           });
       })
-
-
-
 
       // duplicate chapter creation function
       function initAddCurriculum() {
@@ -919,7 +916,6 @@
             <div class="row">
               <div class="col-9">
                 <span class="me-2"><i class="fa-solid fa-circle-check me-1"></i> Lecture 1:</span>
-                <span><i class="fa-regular fa-file me-1"></i>Introduction</span>
               </div>
               <div class="col-3">
                 <div class="cta-btns text-end">
@@ -937,11 +933,7 @@
       
             <div class="position-relative">
               <label class="label">Upload Video</label>
-              <label for="chapter1VideoBtn" class="custom-file-upload-btn">
-                <span>No file Selected</span>
-                <span>Upload File</span>
-              </label>
-              <input type="file" name="lesson_video" class="custom-file-upload-input" id="chapter1VideoBtn">
+              <input type="file" name="lesson_video" class="form-control" id="chapter1VideoBtn">
             </div>
           </div>
         </li>`;
@@ -978,22 +970,22 @@
     })
 
     // Global Fetch Form Submitter
-    $("#intended_learners_form").on("submit", function(event) {
-      event.preventDefault()
+    // $("#intended_learners_form").on("submit", function(event) {
+    //   event.preventDefault()
 
-      fetch(event.target.action, {
-          headers: {
-            "X-CSRF-Token": $('input[name="_token"]').val()
-          },
-          method: "PUT",
-          body: new FormData(document.getElementById(event.target.id))
-        })
-        .then(response => response.json())
-        .then(data => {
-          alert(data.message)
-        })
-        .catch(error => console.log(error))
-    })
+    //   fetch(event.target.action, {
+    //       headers: {
+    //         "X-CSRF-Token": $('input[name="_token"]').val()
+    //       },
+    //       method: "PUT",
+    //       body: new FormData(document.getElementById(event.target.id))
+    //     })
+    //     .then(response => response.json())
+    //     .then(data => {
+    //       alert(data.message)
+    //     })
+    //     .catch(error => console.log(error))
+    // })
   </script>
 
   @if(isset($course))

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
@@ -20,7 +21,27 @@ class RegisteredUserController extends Controller
      */
     public function create(): View
     {
-        return view('auth.register');
+        $menu['category'] = array();
+        $all = Category::where('parent_id', 0)->get()->toArray();
+        foreach ($all as $value) {
+            $arr1['subcat'] = array();
+            $arr1["id"] = $value['id'];
+            $arr1["title"] = $value['name'];
+            $arr1["desc"] = $value['description'];
+            $arr1["iamge"] = $value['image'];
+            $bll = Category::where('parent_id', $value['id'])->get()->toArray();
+            foreach ($bll as $vell) {
+                $arr2 = [];
+                $arr2["sub_id"] = $vell['id'];
+                $arr2["sub_title"] = $vell['name'];
+                $arr2["sub_desc"] = $vell['description'];
+                $arr2["sub_image"] = $vell["image"];
+                array_push($arr1['subcat'], $arr2);
+            }
+            array_push($menu['category'], $arr1);
+        }
+
+        return view('auth.register', ["menus" => $menu]);
     }
 
     /**

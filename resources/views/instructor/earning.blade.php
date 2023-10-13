@@ -6,6 +6,11 @@
         <div class="content-box has-h2--bold">
             <h2>Earnings Overview</h2>
             <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Tempora, alias.</p>
+            @if(isset($Message))
+    <p style="color: green;">{{$Message}}</p>
+@else
+    
+@endif
         </div>
         <ul class="nav nav-tabs" id="myTab" role="tablist">
             <li class="nav-item" role="presentation">
@@ -54,7 +59,7 @@
                     <div class="card">
                         <div class="card-body p-4">
                             <h4>Available Balance</h4>
-                            <h5><span>$39.00</span></h4>
+                            <h5><span>{{"$".$Balance}}</span></h4>
                             <div class="d-flex justify-content-center align-items-center">
                                 <h3>To withdraw earnings, first you need to set up a withdrawal method.</h3>
                                 <p>It may take up to 3 days to activate your withdrawal method.</p>
@@ -95,7 +100,8 @@
                   </div>
                   <div class="modal-body">
                     <div class="add-payment-form-wrap">
-                      <form action="#" autocomplete="off">
+                      <form action="{{route('instructor.paymentadd')}}" method="POST"  autocomplete="off">
+                        @csrf
                         <div class="mb--20">
                           <p class="mb-3 text--dark fw-medium">Choose Option:</p>
                           <ul class="main-options">
@@ -111,20 +117,23 @@
                         </div>
 
                         <fieldset class="mb--20 d-none" data-category="bank account">
-                          <div class="mb-3">
-                            <input type="text" name="apf_bank_name" placeholder="Enter Bank Name" required>
+                        <div class="mb-3">
+                            <input type="text" name="apf_ben_name" placeholder="Enter Benefisiary Name">
                           </div>
                           <div class="mb-3">
-                            <input type="number" name="apf_account_no" placeholder="Enter account number" required>
+                            <input type="text" name="apf_bank_name" placeholder="Enter Bank Name">
                           </div>
                           <div class="mb-3">
-                            <input type="text" name="apf_ifsc_code" placeholder="Enter IFSC code" required>
+                            <input type="number" name="apf_account_no" placeholder="Enter account number">
+                          </div>
+                          <div class="mb-3">
+                            <input type="text" name="apf_ifsc_code" placeholder="Enter IFSC code">
                           </div>
                         </fieldset>
 
                         <fieldset class="mb--20 d-none" data-category="paypal">
                           <div>
-                            <input type="text" name="apf_paypal_url" placeholder="Enter paypal url" required>
+                            <input type="text" name="apf_paypal_url" placeholder="Enter paypal url">
                           </div>
                         </fieldset>
 
@@ -150,7 +159,8 @@
                     </div>
                     <div class="modal-body">
                         <div class="redeem-form-wrap">
-                            <form action="#">
+                            <form action="{{route('instructor.withdrawlrequest')}}" method="POST">
+                              @csrf
                                 <div class="mb--20">
                                     <input type="number" name="rf_amount" placeholder="Enter amount here..." required="">
                                 </div>

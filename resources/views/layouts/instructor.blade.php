@@ -78,6 +78,7 @@
                   <span>Transaction History</span>
               </a>
             </li>
+            
           </ul>
         </nav>
       </div>

@@ -40,9 +40,6 @@
                             <li>
                                 <a class="dropdown-item" href="{{ route('register') }}">Register</a>
                             </li>
-                            <li>
-                                <a class="dropdown-item" href="myprofile.php">Become an instructor</a>
-                            </li>
                             @endif
 
                             @if(Auth::check())
@@ -71,9 +68,12 @@
                                 <a class="dropdown-item" href="myprofile.php">Help & Support</a>
                             </li>
                             <li>
-                                <a class="dropdown-item" href="myprofile.php">Logout</a>
-                            </li>
-                            @endif
+                                <form method="POST" action="{{ route('logout') }}">
+                                    @csrf
+                                    <a class="dropdown-item" href="javascript:;" onclick="parentNode.submit();">Logout</a>
+                                </form>
+                            <li>
+                                @endif
                         </ul>
                     </div>
                 </div>
@@ -105,16 +105,23 @@
         </div>
     </div>
     <nav class="navbar navbar-expand-lg static-top">
-        <a href="#" class="gear">
-            <i class="fa-solid fa-gear"></i>
-        </a>
+
         <div class="container main__header__content">
             <button class="navbar-toggler navbar-toggler-right hamburger-menu order-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="bar"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav">
-                    
+                    @foreach($menus['category'] as $menu)
+                    <li class="dropdown">
+                        <a data-toggle="dropdown" href="productlist.php">{{$menu['title']}}</a>
+                        <ul class="dropdown-menu">
+                            @foreach($menu['subcat'] as $subcat)
+                            <li><a href="#">{{$subcat['sub_title']}}</a></li>
+                            @endforeach
+                        </ul>
+                    </li>
+                    @endforeach
                 </ul>
             </div>
             <div class="contact__info">
@@ -235,10 +242,10 @@
                                     <a href="#">Teach</a>
                                 </li>
                                 <li>
-                                    <a href="#">Partners</a>
+                                    <a href="{{ route('tc') }}">Terms & Conditions</a>
                                 </li>
                                 <li>
-                                    <a href="#">Privacy Policy</a>
+                                    <a href="{{ route('pp') }}">Privacy Policy</a>
                                 </li>
                             </ul>
                         </div>

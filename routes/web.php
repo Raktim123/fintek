@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AdminCourseController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CourseController;
@@ -41,6 +42,12 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, "index"])->name("home");
 Route::get('/course/{id}', [HomeController::class, "single_course"])->name("course.single");
+Route::get('add_cart/{course_id}', [HomeController::class, "add_cart"])->name("add_cart");
+
+Route::get('cart', [HomeController::class, "cart"])->name("cart");
+
+Route::get('terms-and-conditions', [HomeController::class, "tc"])->name("tc");
+Route::get('privacy-and-policy', [HomeController::class, "pp"])->name("pp");
 
 Route::middleware('auth')->group(function () {
     Route::get("checkout/{course_id}", [OrderController::class, "checkout"])->name("checkout");
@@ -74,6 +81,9 @@ Route::middleware('auth')->prefix("instructor")->group(function () {
     Route::resource("courseearn", Coursewiseearnings::class);
     Route::resource("enrolling", EnrollsController::class);
     Route::post("chatinsert", [Instructorhelpsupport::class, "insertchat"])->name("helpo.insert");
+    Route::post("paymentadd", [InstructorController::class, "paymentmethodadd"])->name("instructor.paymentadd");
+    Route::post("withdrawlrequest", [InstructorController::class, "withdraw"])->name("instructor.withdrawlrequest");
+    
     // Category Routes
     Route::post("category/subcategories", [CategoryController::class, "get_subcategories"])->name("category.subcategories");
     Route::resource("category", CategoryController::class);
@@ -119,6 +129,10 @@ Route::get("/admin", function () {
     Route::resource("coursesinfo", AdminCourseController::class);
     Route::post('/addprivacy', [AdminCourseController::class, "updatecoursestat"])->name('stat.update');
     Route::post('/editphoto', [Adminprofilemanagement::class, "setpickphoto"])->name('adminprofile.setpic');
+
+    Route::get("/get_students", [AdminController::class, "get_students"])->name("admin.get_students");
+    Route::get("/get_instructors", [AdminController::class, "get_instructors"])->name("admin.get_instructors");
+
 });
 
 require __DIR__.'/auth.php';

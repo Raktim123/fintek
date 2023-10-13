@@ -111,7 +111,7 @@ class CurriculumController extends Controller
         $video->storeAs('videos', $fileName, 'public');
 
         $lesson->content_type = $video->getClientMimeType();
-        $lesson->content = $fileName; 
+        $lesson->content = 'videos/'.$fileName; 
 
         if($lesson->save())
         {
