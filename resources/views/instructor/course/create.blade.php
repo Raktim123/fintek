@@ -73,7 +73,7 @@
                       <li>
                         <a href="#" data-target="coursePromotionsBlock"><span></span>Promotions</a>
                       </li>
-                      <li>
+                      <li class="d-none">
                         <a href="#" data-target="courseMessageBlock"><span></span>Course Message</a>
                       </li>
                     </ul>
@@ -337,7 +337,69 @@
                     <div class="curriculumn-form-wrap">
                       <form action="#">
                         <ul class="section-list">
+                          @foreach($course->chapters as $chapter)
+                          <li>
+                            <fieldset class="cur-section" data-chapter_id="{{$chapter->id}}">
+                            <div class="cur-section__header">
+                              <div class="row align-items-center">
+                                <div class="col-9 d-flex align-items-center">
+                                  <p class="fw-bold mb-0 flex-shrink-0">Chapter {{$loop->iteration}}: <i class="fa-regular fa-file ms-3 me-1"></i></p>
+                                  <input type="text" name="chapter_title" value="Chapter Title" disabled="">
+                                </div>
+                                <div class="col-3">
+                                  <div class="cta-btns text-end">
+                                    <button type="button" class="btn--section-edit"><i class="fa-regular fa-pen-to-square"></i></button>
+                                    <button type="button" class="btn--section-remove"><i class="fa-regular fa-trash-can"></i></button>
+                                  </div>
+                                </div>
+                              </div>
 
+                              <div class="final-action-btns text-end">
+                                <button type="button" class="btn--section-edit-cancel d-none">Cancel</button>
+                                <button type="button" class="btn btn--dark btn--section-edit-save">Save</button>
+                              </div>
+                            </div>
+                            <div class="cur-section__body">
+                              <ul class="chapter-list">
+                                <li class="chapter-block" data-lesson_id="${data.lesson.id}">
+                                  <div class="chapter-block__header">
+                                    <div class="row">
+                                      <div class="col-9">
+                                        <span class="me-2"><i class="fa-solid fa-circle-check me-1"></i> Lecture 1:</span>
+                                        <span><i class="fa-regular fa-file me-1"></i>Introduction</span>
+                                      </div>
+                                      <div class="col-3">
+                                        <div class="cta-btns text-end">
+                                          <button type="button" class="btn--chapter-block-expand"><i class="fa-solid fa-chevron-down"></i></button>
+                                          <button type="button" class="chapter-block--remove"><i class="fa-regular fa-trash-can"></i></button>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="chapter-block__body lesson_block">
+                                    <div>
+                                      <label class="label">Chapter Title</label>
+                                      <input type="text" name="lesson_title" value="" placeholder="Enter your chapter title">
+                                    </div>
+
+                                    <div class="position-relative">
+                                      <label class="label">Upload Video</label>
+                                      <label for="chapter1VideoBtn" class="custom-file-upload-btn">
+                                        <span>No file Selected</span>
+                                        <span>Upload File</span>
+                                      </label>
+                                      <input type="file" name="lesson_video" class="custom-file-upload-input" id="chapter1VideoBtn">
+                                    </div>
+                                  </div>
+                                </li>
+                              </ul>
+                              <div class="add-curriculumn-btn-wrapper">
+                                <button type="button" class="btn btn--dark btn--add-curriculumn"><i class="fa-solid fa-plus me-2"></i>Curriculum Item</button>
+                              </div>
+                            </div>
+                            </fieldset>
+                          </li>
+                          @endforeach
                         </ul>
                         <div class="mt--20">
                           <button type="button" class="btn btn--dark btn--add-section"><i class="fa-solid fa-plus me-2"></i>Add Chapter</button>
