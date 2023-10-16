@@ -504,6 +504,8 @@ background-color:#730099; margin:0px auto; border-radius:50px; border:solid 1px 
   pointer-events: none;
   transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
   transition-delay: 0.3s;
+  height: 400px;
+  overflow-y: scroll;
 }
 .course-card:hover .course-card__outer {
     opacity: 1;
@@ -1046,3 +1048,10 @@ text-align: left; border:none;line-height: 67px; margin-top: 30px;}
 .catificate__wrapp span{font-weight: 700;}
 .cartificate__name__holder h2{font-size: 40px; font-weight: 700;}
 .cartificate__name__holder p{margin: 0;}
+.keep{ width: 150px; height: 60px; text-align: center; line-height: 60px; font-size: 16px; background: #00b050; border-radius:100px ;
+     margin: 0 auto 30px auto; display: block; -webkit-border-radius:100px ; 
+     -moz-border-radius:100px ; -ms-border-radius:100px ; -o-border-radius:100px ; color: #000; font-weight: 600; text-decoration: none; }
+
+.keep:hover {
+    color: black;
+}

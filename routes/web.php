@@ -51,6 +51,8 @@ Route::get('privacy-and-policy', [HomeController::class, "pp"])->name("pp");
 
 Route::middleware('auth')->group(function () {
     Route::get("checkout/{course_id}", [OrderController::class, "checkout"])->name("checkout");
+    Route::get("cart-checkout", [OrderController::class, "cart_checkout"])->name("cart-checkout");
+
     Route::post("payment/{course_id}", [OrderController::class, "payment"])->name("payment");
     
     Route::post("paypal/payment/success", [OrderController::class, "payment_success"])->name("payment.success");

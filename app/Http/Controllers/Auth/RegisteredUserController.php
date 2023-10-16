@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Cart;
 use App\Models\Category;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
@@ -64,6 +65,16 @@ class RegisteredUserController extends Controller
         ]);
 
         event(new Registered($user));
+
+        $carts = $request->session()->get("carts");
+        if (is_null($carts) == false) {
+            foreach ($carts as $c) {
+                $cart = new Cart();
+                $cart->student_id = auth()->user()->id;
+                $cart->course_id = $c['course_id'];
+                $cart->save();
+            }
+        }
 
         Auth::login($user);
 

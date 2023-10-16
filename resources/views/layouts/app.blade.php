@@ -78,7 +78,7 @@
                     </div>
                 </div>
                 <div class="cart__wrapp">
-                    <a href="#">
+                    <a href="{{ route('cart') }}">
                         <img src="{{ asset('assets/frontend/images/cart.png') }}" alt="" />
                         <span>0</span>
                     </a>

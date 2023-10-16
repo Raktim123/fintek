@@ -39,7 +39,7 @@ dd($records);
             $count_course = sizeof($courcelist);
             $arr2["courcenum"] = $count_course;
             foreach($courcelist as $vel){
-                $nn = DB::select("select * from orders where course_id =?", [$vel['id']]);
+                $nn = DB::select("select * from order_metas where course_id =?", [$vel['id']]);
                 $orderlist = json_decode(json_encode($nn), true); 
                 $numberpurchase = sizeof($orderlist);
                 if($numberpurchase==0){

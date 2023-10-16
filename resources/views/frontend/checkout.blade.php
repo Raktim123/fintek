@@ -23,7 +23,7 @@
                 </div>
             </div>
 
-            <form method="POST" action="{{ route('payment', $course->id) }}">
+            <form method="POST" action="{{ route('payment', $ids) }}">
                 @csrf
                 <div class="row">
                     <div class="col-sm-12 col-md-8 col-lg-8 col-xl-8">

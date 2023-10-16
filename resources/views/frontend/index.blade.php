@@ -68,7 +68,7 @@
                             <div class="course-card__main">
                                 <div class="image__box">
                                     <a href="#" class="ms-auto">
-                                        <img src="{{ asset('assets/frontend/images/freeall.png') }}" alt="" />
+                                        <img src="{{ asset(Storage::url($course->thumbnail)) }}" alt="" />
                                     </a>
                                 </div>
                                 <div class="banner__content">

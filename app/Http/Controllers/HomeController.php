@@ -221,8 +221,10 @@ class HomeController extends Controller
 
     public function cart(Request $request)
     {
-        $menus = $this->get_menus();
-        $records = [];
+        $menus      = $this->get_menus();
+        $records    = [];
+        $carts      = [];
+        
         if (Auth::check()) 
         {
             $carts = Cart::where("student_id", auth()->user()->id)->get();
@@ -235,11 +237,15 @@ class HomeController extends Controller
             } 
         }
 
+        $total = 0;
+        
         foreach($carts as $item)
         {
-            $records[] = Course::find($item->course_id);
+            $course = Course::find($item['course_id']);
+            $total+=$course->sale_price;
+            $records[] = Course::find($item['course_id']);
         }
 
-        return view("frontend.cart", ["records" => $records, "menus" => $menus])
+        return view("frontend.cart", ["records" => $records, "total" => $total, "menus" => $menus]);
     }
 }

@@ -132,19 +132,19 @@
                     }
                 }],
                 intent: "CAPTURE",
-                payer: {
-                    email_address: "{{ auth()->user()->email }}",
-                    name: {
-                        given_name: "Raktim",
-                        surname: "Banerjee"
-                    },
-                    address: {
-                        address_line_1: "{{ $inputs['address'] }}",
-                        admin_area_1: "{{ $inputs['state'] }}",
-                        postal_code: "{{ $inputs['pincode'] }}",
-                        country_code: "{{ $inputs['country'] }}"
-                    },
-                },
+                // payer: {
+                //     email_address: "{{ auth()->user()->email }}",
+                //     name: {
+                //         given_name: "Raktim",
+                //         surname: "Banerjee"
+                //     },
+                //     address: {
+                //         address_line_1: "{{ $inputs['address'] }}",
+                //         admin_area_1: "{{ $inputs['state'] }}",
+                //         postal_code: "{{ $inputs['pincode'] }}",
+                //         country_code: "{{ $inputs['country'] }}"
+                //     },
+                // },
                 payment_source: {
                     paypal: {
                         experience_context: {
@@ -181,7 +181,7 @@
                 })
                 .then(response => response.json())
                 .then(data => {
-                    window.location.href = "{{route('study.learn', $course->id)}}"
+                    window.location.href = "{{route('my_courses')}}"
                     console.log(data)
                 })
         },

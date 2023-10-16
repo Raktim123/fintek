@@ -3,6 +3,8 @@
 @section('content')
 <div class="main__body__wrapp">
     <div class="what__you__wrapp">
+
+        @if(count($records) > 0)
         <div class="container">
             <div class="row">
                 <div class="col-12 col-md-12 col-lg-8 col-xxl-8 pe-lg-4">
@@ -10,93 +12,41 @@
                         <table class="table cart-data-table">
                             <thead>
                                 <tr class="bg--primary">
-                                    <th scope="col">Product</th>
-                                    <th scope="col">Price</th>
-                                    <th scope="col">Quantity</th>
-                                    <th scope="col">Subtotal</th>
-                                    <th scope="col"></th>
+                                    <th scope="col">Thumbnail</th>
+                                    <th scope="col">Course</th>
+                                    <th scope="col">Regular Price</th>
+                                    <th scope="col">Sale Price</th>
+                                    <th scope="col">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
+                                @foreach($records as $record)
                                 <tr class="cart-data-table__row">
                                     <td>
-                                        <a href="#" class="d-flex align-items-center cart-data-table__product">
+                                        <a href="{{ route('course.single', $record->id) }}" class="d-flex align-items-center cart-data-table__product">
                                             <span class="cart-data-table__product-image me-3">
-                                                <img src="assets/images/1565838_e54e_16.jpg" alt="product1" />
+                                                <img src="{{ asset(Storage::url($record->thumbnail)) }}" />
                                             </span>
-                                            <span class="cart-data-table__product-title">Product 1</span>
+                                            <span class="cart-data-table__product-title" style="text-align: left;">{{ $record->title }}</span>
                                         </a>
                                     </td>
-                                    <td class="text--heading fw-bold">$120.00</td>
-                                    <td>
-                                        <div class="quantity-generating-input-container">
-                                            <input type="button" value="-" class="qtyminus" field="quantity1" />
-                                            <input type="text" name="quantity1" value="1" class="qty" />
-                                            <input type="button" value="+" class="qtyplus" field="quantity1" />
-                                        </div>
-                                    </td>
-                                    <td class="text--heading fw-bold">$120.00</td>
+                                    <td class="text--heading fw-bold">{{ '$'.$record['price'] }}</td>
+                                    <td class="text--heading fw-bold">{{ '$'.$record['sale_price'] }}</td>
                                     <td>
                                         <a href="javascript:void(0)" class="cart-data-table__button--remove-row"><i class="bi bi-x-lg"></i></a>
                                     </td>
-                                </tr>
-                                <tr class="cart-data-table__row">
                                     <td>
-                                        <a href="#" class="d-flex align-items-center cart-data-table__product">
-                                            <span class="cart-data-table__product-image me-3">
-                                                <img src="assets/images/1565838_e54e_16.jpg" alt="product1" />
-                                            </span>
-                                            <span class="cart-data-table__product-title">Product 1</span>
-                                        </a>
-                                    </td>
-                                    <td class="text--heading fw-bold">$120.00</td>
-                                    <td>
-                                        <div class="quantity-generating-input-container">
-                                            <input type="button" value="-" class="qtyminus" field="quantity1" />
-                                            <input type="text" name="quantity1" value="1" class="qty" />
-                                            <input type="button" value="+" class="qtyplus" field="quantity1" />
-                                        </div>
-                                    </td>
-                                    <td class="text--heading fw-bold">$120.00</td>
-                                    <td>
-                                        <a href="javascript:void(0)" class="cart-data-table__button--remove-row"><i class="bi bi-x-lg"></i></a>
+                                        <a href="" class="btn btn-danger">Delete</a>
                                     </td>
                                 </tr>
-                                <tr class="cart-data-table__row">
-                                    <td>
-                                        <a href="#" class="d-flex align-items-center cart-data-table__product">
-                                            <span class="cart-data-table__product-image me-3">
-                                                <img src="assets/images/1565838_e54e_16.jpg" alt="product1" />
-                                            </span>
-                                            <span class="cart-data-table__product-title">Product 1</span>
-                                        </a>
-                                    </td>
-                                    <td class="text--heading fw-bold">$120.00</td>
-                                    <td>
-                                        <div class="quantity-generating-input-container">
-                                            <input type="button" value="-" class="qtyminus" field="quantity1" />
-                                            <input type="text" name="quantity1" value="1" class="qty" />
-                                            <input type="button" value="+" class="qtyplus" field="quantity1" />
-                                        </div>
-                                    </td>
-                                    <td class="text--heading fw-bold">$120.00</td>
-                                    <td>
-                                        <a href="javascript:void(0)" class="cart-data-table__button--remove-row"><i class="bi bi-x-lg"></i></a>
-                                    </td>
-                                </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
                     <p class="empty-cart-text text-center d-none error-text mt-3">
                         No item has been added to the cart.
                     </p>
-                    <div class="d-flex justify-content-between align-items-center mt-4">
-                        <a href="#" class="button button-primary con">Continue Shopping</a>
-                        <a href="javascript:void(0)" class="cart-data-table__button--clear-total-items ms-3 text-uppercase">
-                            <span><i class="bi bi-x-lg"></i></span>
-                            <span>Clear</span>
-                        </a>
-                    </div>
+
 
                     <div class="checkout-steps mx-4 mx-sm-0 d-none">
                         <div class="checkout-step__content mt-4">
@@ -129,59 +79,25 @@
 
                 <div class="col-12 col-md-12 col-lg-4 col-xxl-4 mt-5 mt-lg-0">
                     <div class="cart-total-wrapper order-summary bg--light border-custom-1 border-radius--custom p-4">
-                        <h5 class="text--heading order-summary__heading mb-3">
-                            Order Summary
-                        </h5>
-                        <ul class="order-summary__product-preview-container mt-1">
-                            <li class="product-preview row">
-                                <div class="col-7 p-0">
-                                    <p class="text--primary text--sm">
-                                        <span class="product-preview__title">Product Title 1</span>
-                                        <span class="product-preview__added-count-value text--para">x 2</span>
-                                    </p>
-                                </div>
-                                <div class="col-5 text-end p-0">
-                                    <h6 class="m-0">$20.00</h6>
-                                </div>
-                            </li>
-                            <li class="product-preview row">
-                                <div class="col-7 p-0">
-                                    <p class="text--primary text--sm">
-                                        <span class="product-preview__title">Product Title 1</span>
-                                        <span class="product-preview__added-count-value text--para">x 2</span>
-                                    </p>
-                                </div>
-                                <div class="col-5 text-end p-0">
-                                    <h6 class="m-0">$20.00</h6>
-                                </div>
-                            </li>
-                        </ul>
-                        <div class="cart__subtotal-container d-flex justify-content-between align-items-center mb-3">
-                            <p class="text--sm text--primary m-0 fw-bold">Subtotal</p>
-                            <h6 class="-0">$20.00</h6>
-                        </div>
-                        <div class="cart__subtotal-container d-flex justify-content-between align-items-center mb-3">
-                            <p class="text--sm text--primary m-0 fw-bold">GST</p>
-                            <h6 class="m-0">$10.00</h6>
-                        </div>
-                        <div class="cart__subtotal-container cart__subtotal-container--shipping d-flex justify-content-between align-items-center mb-3">
-                            <p class="text--sm text--primary m-0 fw-bold">
-                                Shipping Charge
-                            </p>
-                            <h6 class="m-0">
-                                <span class="shipping-charge__prefix text--sm text--primary me-1">Flat
-                                    rate</span><span class="shipping-charge__value">$5.00</span>
-                            </h6>
-                        </div>
-
-                        <div class="cart__total-container d-flex justify-content-between align-items-center mb-0">
-                            <p class="text--lg text--primary m-0 fw-bold">Total</p>
-                            <h5 class="text--heading m-0">$35.00</h5>
+                        <h3>Total: ${{ $total }}</h3>
+                        <div class="d-flex justify-content-between align-items-center mt-4">
+                            <a href="{{route('cart-checkout')}}" class="button button-primary con w-100 text-center">Continue Shopping</a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        @else
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-8 m-auto">
+                    <img src="{{ asset('assets/frontend/images/empty-shopping-cart-v2.jpg') }}" class="m-auto d-block pt-5">
+                    <h5 class="text-center pb-5">Your cart is empty. Keep shopping to find a course!</h5>
+                    <a href="#" class="keep">Keep shopping</a>
+                </div>
+            </div>
+        </div>
+        @endif
     </div>
 </div>
 @stop

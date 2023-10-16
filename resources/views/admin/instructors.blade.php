@@ -55,7 +55,7 @@
                                                 <tr>
                                                     <td>{{$value['Name']}}</td>
                                                     <td>{{$value['courcenum']}}</td>
-                                                    <td>{{$value['incometotal']}}</td>
+                                                    <td>{{"$".$value['incometotal']}}</td>
                                                     
                                                 </tr>
                                             <?php } ?>
