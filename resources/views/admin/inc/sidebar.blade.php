@@ -76,6 +76,16 @@
             </a>
 
         </li>
+
+        <li>
+            <a href="{{route('payment_withdrawl')}}" class="has-arrow">
+                <div class="parent-icon"><i class='bx bx-user-circle'></i>
+                </div>
+                <div class="menu-title">Payment Withdrawal</div>
+            </a>
+
+        </li>
+
         <li>
             <a href="{{route('helps.index')}}" class="">
                 <div class="parent-icon"><i class='bx bx-user-circle'></i>

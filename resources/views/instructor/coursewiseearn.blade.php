@@ -4,9 +4,8 @@
 <div class="db__content">
   <div class="help-support-form-wrap content-wrap">
     <div class="content-box has-h2--bold">
-      <h2>Help & Support</h2>
-      <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Tempora, alias.</p>
-    </div>
+      <h2>Course Wise Earning</h2>
+          </div>
 
     <div class="container mt-5">
                             <table  class="table table-bordered">
@@ -30,8 +29,8 @@
                 <td>{{$sup->title}}</td>
                 <td>{{$sup->language}}</td>
                 <td>{{$sup->level}}</td>
-                <td>{{$sup->enrolled}}</td>
-                <td>{{$sup->income}}</td>
+                <td>{{$sup->countt}}</td>
+                <td>{{"$".$sup->total}}</td>
             </tr>
             <?php } ?>
            

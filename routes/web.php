@@ -123,6 +123,7 @@ Route::get("/admin", function () {
  Route::post('/addterms', [CmsController::class, "addterms"])->name('add.terms');
  Route::resource("categories", CategoryController::class);
  Route::resource("banners", BannermanagementController::class);
+ Route::get('/getwithdrawl', [InstructorController::class, "getallwithdrawl"])->name('instructor_withdrawl');
 
  Route::middleware('auth')->prefix("admin")->group(function () {
     Route::resource("courses", CourseController::class);
@@ -135,6 +136,8 @@ Route::get("/admin", function () {
     Route::get("/get_students", [AdminController::class, "get_students"])->name("admin.get_students");
     Route::get("/get_instructors", [AdminController::class, "get_instructors"])->name("admin.get_instructors");
 
+
+    Route::get("/payment_withdrawl", [AdminController::class, "payment_withdrawl"])->name("payment_withdrawl");
 });
 
 require __DIR__.'/auth.php';

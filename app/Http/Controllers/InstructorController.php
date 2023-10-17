@@ -65,28 +65,34 @@ class InstructorController extends Controller
             }
             
         }
+
+        
         
         $totalinc = 0.00;
          $mm = DB::select("select * from courses where instructor_id =?", [auth()->user()->id]);
             $courcelist = json_decode(json_encode($mm), true);
             foreach($courcelist as $vel){
-                $nn = DB::select("select * from order_metas where course_id =?", [$vel['id']]);
+                $price = 0.00;
+                $nn = DB::select("select sum(order_metas.amount) total from order_metas inner join orders on orders.id = order_metas.order_id where order_metas.course_id =? and orders.payment_status =? group by order_metas.course_id", [$vel['id'], "PAID"]);
                 $orderlist = json_decode(json_encode($nn), true); 
                 $numberpurchase = sizeof($orderlist);
                 if($numberpurchase==0){
                     $price = 0.00; 
                 }else{
-                    foreach($orderlist as $vold){
-                        $price = $vold['amount'];
-                      }
+                    $price = $orderlist[0]['total'];
+                    
                 }
                   
-                $totalinc = $totalinc+$numberpurchase*$price;
+                $totalinc = $totalinc+$price;
             }
+            $withdr = DB::select("select sum(amount) total from withdrawals where withdrawal_by =? and withdrawal_status IN ('PENDING','APPROVED')", [auth()->user()->id]);
+            $withdrawing = json_decode(json_encode($withdr), true); 
+            $takeoff = $withdrawing[0]['total'];
+            $newbalance = $totalinc - $takeoff;
               
          // dd($total);
         
-        return view("instructor.earning",["histories" => $total,"Balance"=>$totalinc]);
+        return view("instructor.earning",["histories" => $total,"Balance"=>$newbalance]);
 
     }
 
@@ -169,23 +175,28 @@ class InstructorController extends Controller
 
     public function withdraw(Request $request){
         $totalinc = 0.00;
-         $mm = DB::select("select * from courses where instructor_id =?", [auth()->user()->id]);
-            $courcelist = json_decode(json_encode($mm), true);
-            foreach($courcelist as $vel){
-                $nn = DB::select("select * from order_metas where course_id =?", [$vel['id']]);
-                $orderlist = json_decode(json_encode($nn), true); 
-                $numberpurchase = sizeof($orderlist);
-                if($numberpurchase==0){
-                    $price = 0.00; 
-                }else{
-                    foreach($orderlist as $vold){
-                        $price = $vold['amount'];
-                      }
-                }
-                  
-                $totalinc = $totalinc+$numberpurchase*$price;
-            }
-            if($totalinc>=$request->rf_amount){
+        $mm = DB::select("select * from courses where instructor_id =?", [auth()->user()->id]);
+           $courcelist = json_decode(json_encode($mm), true);
+           foreach($courcelist as $vel){
+               $price = 0.00;
+               $nn = DB::select("select sum(order_metas.amount) total from order_metas inner join orders on orders.id = order_metas.order_id where order_metas.course_id =? and orders.payment_status =? group by order_metas.course_id", [$vel['id'], "PAID"]);
+               $orderlist = json_decode(json_encode($nn), true); 
+               $numberpurchase = sizeof($orderlist);
+               if($numberpurchase==0){
+                   $price = 0.00; 
+               }else{
+                   $price = $orderlist[0]['total'];
+                   
+               }
+                 
+               $totalinc = $totalinc+$price;
+           }
+           $withdr = DB::select("select sum(amount) total from withdrawals where withdrawal_by =? and withdrawal_status IN ('PENDING','APPROVED')", [auth()->user()->id]);
+            $withdrawing = json_decode(json_encode($withdr), true); 
+            $takeoff = $withdrawing[0]['total'];
+            $newbalance = $totalinc - $takeoff;
+
+            if($newbalance>=$request->rf_amount){
                 $withd = new Withdraw();
                 $withd->withdrawal_by = auth()->user()->id;
                 $withd->amount = $request->rf_amount;
@@ -206,6 +217,13 @@ class InstructorController extends Controller
        
        
 
+    }
+
+    public function getallwithdrawl(){
+
+        $withdr = DB::select("select id from transactions where ref_id in (select id from withdrawals where withdrawal_by = ?) ", [auth()->user()->id]);
+            $options = json_decode(json_encode($withdr), true); 
+        return response()->json($options);
     }
     
 
