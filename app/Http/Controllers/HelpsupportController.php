@@ -14,9 +14,16 @@ class HelpsupportController extends Controller
      */
     public function index()
     {
-        $helper = Suporttracker::join('users', 'users.id', '=', 'suporttrackers.created_by')
-        ->select('suporttrackers.*', 'users.name')
-        ->get(); 
+        $helper = DB::table('suporttrackers')
+        ->join('users', 'users.id', '=', 'suporttrackers.created_by')
+        ->select(
+            'suporttrackers.*',
+            'users.name',
+            DB::raw('CASE WHEN suporttrackers.tran_id is null then "" else (select stat from refund where tran_id = suporttrackers.tran_id) end  as tra'),
+            DB::raw('CASE WHEN (SELECT amount FROM withdrawals WHERE id IN (SELECT ref_id FROM transactions WHERE id = suporttrackers.tran_id)) IS NULL THEN "NA" ELSE (SELECT amount FROM withdrawals WHERE id IN (SELECT ref_id FROM transactions WHERE id = suporttrackers.tran_id)) END AS Amount'),
+            DB::raw('CASE WHEN (SELECT amount FROM withdrawals WHERE id IN (SELECT ref_id FROM transactions WHERE id = suporttrackers.tran_id)) IS NULL THEN "NA" ELSE (SELECT created_at FROM withdrawals WHERE id IN (SELECT ref_id FROM transactions WHERE id = suporttrackers.tran_id)) END AS Datee')
+        )
+        ->get();
         $allhelp =  json_decode(json_encode($helper), true);
 
         return view("admin.cms.helpnsupport", ["support" => $allhelp]);

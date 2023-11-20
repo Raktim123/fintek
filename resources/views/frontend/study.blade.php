@@ -1,6 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
+<form>@csrf</form>
+
 <div class="main__body__wrapp">
     <div class="student__wrapp">
         <div class="student__progress__wrapp">
@@ -60,28 +62,10 @@
                     <div class="video__holder">
                         <iframe width="100%" height="600" src="<?php echo asset(Storage::url($lesson['content'])); ?>" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
                     </div>
-                    <div class="tab__holder d-none">
+                    <div class="tab__holder">
                         <ul class="nav nav-tabs" id="myTab" role="tablist">
                             <li class="nav-item" role="presentation">
                                 <button class="nav-link" id="qa-tab" data-bs-toggle="tab" data-bs-target="#qa" type="button" role="tab" aria-controls="contact" aria-selected="false">Q&A
-                                </button>
-                            </li>
-
-                            <li class="nav-item d-none" role="presentation">
-                                <button class="nav-link" id="reviews-tab" data-bs-toggle="tab" data-bs-target="#reviews" type="button" role="tab" aria-controls="contact" aria-selected="false">Reviews
-                                </button>
-                            </li>
-
-                            <li class="nav-item d-none" role="presentation">
-                                <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true"><i class="fa-solid fa-magnifying-glass"></i></button>
-                            </li>
-
-                            <li class="nav-item d-none" role="presentation">
-                                <button class="nav-link" id="overview-tab" data-bs-toggle="tab" data-bs-target="#overview" type="button" role="tab" aria-controls="overview" aria-selected="false">Overview</button>
-                            </li>
-
-                            <li class="nav-item d-none" role="presentation">
-                                <button class="nav-link" id="announcements-tab" data-bs-toggle="tab" data-bs-target="#announcements" type="button" role="tab" aria-controls="contact" aria-selected="false">Announcements
                                 </button>
                             </li>
                         </ul>
@@ -92,7 +76,7 @@
                                         <button class="btn btn-dark" data-toggle="modal" data-target="#questionModal">Ask Question</button>
                                     </div>
                                 </div>
-                                <div class="search__wrapp mt-5 m-auto d-none">
+                                <div class="search__wrapp mt-5 m-auto">
                                     <input type="text" value="" placeholder="Search courses Here">
                                     <input type="submit" name="" id="">
                                 </div>
@@ -286,11 +270,11 @@
                                 </h2>
                                 <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
                                     <div class="accordion-body">
-                                        @foreach($chapter->lessons as $lesson)
+                                        @foreach($chapter->lessons as $l)
                                         <div class="radio__button">
                                             <div class="form-check">
                                                 <input type="checkbox">
-                                                <a class="text-dark" href="{{route('study.learn', $course->id)}}?chapter_id={{$chapter->id}}&lesson_id={{$lesson->id}}" style="color: blackl; text-decoration: none;">{{$lesson->title}}</a>
+                                                <a class="text-dark" href="{{route('study.learn', $course->id)}}?chapter_id={{$chapter->id}}&lesson_id={{$l->id}}" style="color: blackl; text-decoration: none;">{{$l->title}}</a>
                                             </div>
                                         </div>
                                         @endforeach
@@ -310,7 +294,7 @@
 <div class="modal fade" id="questionModal">
     <div class="modal-dialog modal-lg">
 
-        <form id="questionform" action="" method="POST">
+        <form id="questionform">
             @csrf
             <div class="modal-content">
                 <!-- Modal Header -->
@@ -343,10 +327,9 @@
 
                 <!-- Modal footer -->
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-success">Submit</button>
+                    <button type="button" class="btn btn-success" id="ask_question">Submit</button>
                     <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
                 </div>
-
             </div>
         </form>
     </div>
@@ -355,4 +338,25 @@
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    $("#ask_question").on("click", function(event) {
+        event.preventDefault()
+
+        let formdata = new FormData()
+        formdata.append("question", $("textarea[name='question']").val())
+        formdata.append("lesson_id", <?php echo $lesson['id'] ?>)
+
+        fetch("{{ route('ask_question') }}", {
+                headers: {
+                    "X-CSRF-Token": $('input[name="_token"]').val()
+                },
+                method: "POST",
+                body: formdata
+            })
+            .then(response => response.json())
+            .then(data => console.log())
+            .catch(console.log)
+    })
+</script>
 @stop

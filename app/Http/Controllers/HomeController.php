@@ -9,6 +9,7 @@ use App\Models\Course;
 use App\Models\CourseMeta;
 use App\Models\Enroll;
 use App\Models\Lesson;
+use App\Models\InstructordetailsModel;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
@@ -95,6 +96,37 @@ class HomeController extends Controller
            array_push($menu['category'], $arr1);
          }
         return $menu;
+    }
+
+    public function instructorship(){
+        return view('frontend.instructor');   
+    }
+
+    public function reginstructor(){
+        $menus = $this->get_menus();
+        
+
+        return view('frontend.instructormform', ["menus" => $menus]);   
+    }
+
+    public function submitregis(Request $rst){
+        if ($rst->hasFile('file_upload')) {
+            $pdfFile = $rst->file('file_upload');
+            $destinationPath = public_path('/instructorcertificate'); // Change the path as needed
+            $fileName = $pdfFile->getClientOriginalName();
+            $pdfFile->move($destinationPath, $fileName);
+
+            $instructor = new InstructordetailsModel();
+            $instructor->user_id = auth()->user()->id;
+            $instructor->desig = $rst->designation;
+            $instructor->working = $rst->current_working;
+            $instructor->last_qualified = $rst->last_qualification;
+            $instructor->spec = $rst->specialization;
+            $instructor->exp = $rst->teaching_experience;
+            $instructor->certificate = $fileName;
+            $instructor->save();
+            return view('frontend.instructor');
+        }
     }
 
     public function add_cart(Request $request)

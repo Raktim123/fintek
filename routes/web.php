@@ -67,10 +67,15 @@ Route::middleware('auth')->group(function () {
     // Route::get("study/lesson/incomplete/{lesson_id}", [StudyController::class, "learn"])->name("study.learn");
 
     Route::get("home/my-courses/learning/", [HomeController::class, "learning"])->name("my_courses");
+    Route::get("home/be-instructor/", [HomeController::class, "instructorship"])->name("be.instructor");
+    Route::get("home/instructor-registration/", [HomeController::class, "reginstructor"])->name("reg.instructor");
+    Route::post("home/completeregistration", [HomeController::class, "submitregis"])->name("beainstructor");
 
     Route::get('/profile', [HomeController::class, 'edit'])->name('profile.edit');
     // Route::patch('/profile', [HomeController::class, 'update'])->name('profile.update');
     // Route::delete('/profile', [HomeController::class, 'destroy'])->name('profile.destroy');
+
+    Route::post("/ask_question", [InstructorController::class, "ask_question"])->name("ask_question");
 
 });
 
@@ -85,6 +90,9 @@ Route::middleware('auth')->prefix("instructor")->group(function () {
     Route::post("chatinsert", [Instructorhelpsupport::class, "insertchat"])->name("helpo.insert");
     Route::post("paymentadd", [InstructorController::class, "paymentmethodadd"])->name("instructor.paymentadd");
     Route::post("withdrawlrequest", [InstructorController::class, "withdraw"])->name("instructor.withdrawlrequest");
+    Route::get("forumdetails", [InstructorController::class, "fetchforum"])->name("instructor.fetchforums");
+    Route::get("/forumdetails/{tran_id}", [InstructorController::class,"allhead"])->name('forum.details');
+    Route::post("/replyinstructor", [InstructorController::class,"replying"])->name('instrunctor.reply');
     
     // Category Routes
     Route::post("category/subcategories", [CategoryController::class, "get_subcategories"])->name("category.subcategories");
@@ -132,9 +140,11 @@ Route::get("/admin", function () {
     Route::resource("coursesinfo", AdminCourseController::class);
     Route::post('/addprivacy', [AdminCourseController::class, "updatecoursestat"])->name('stat.update');
     Route::post('/editphoto', [Adminprofilemanagement::class, "setpickphoto"])->name('adminprofile.setpic');
-
+    Route::get("/get_instructors_approval", [AdminController::class, "get_all_instructor"])->name("admin.get_instructorapproval");
     Route::get("/get_students", [AdminController::class, "get_students"])->name("admin.get_students");
     Route::get("/get_instructors", [AdminController::class, "get_instructors"])->name("admin.get_instructors");
+    Route::get("/refund/{tran_id}", [AdminController::class,"refunding"])->name('refund.done');
+    Route::get("/approveinstructor/{id}", [AdminController::class,"approving"])->name('instructor_approving');
 
 
     Route::get("/payment_withdrawl", [AdminController::class, "payment_withdrawl"])->name("payment_withdrawl");

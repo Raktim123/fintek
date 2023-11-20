@@ -46,6 +46,8 @@
             <tr>
                 <th>Subject of Issue</th>
                 <th>Message for Issue</th>
+                <th>Amount</th>
+                <th>Withdrawl Request Date</th>
                 <th>Sending By</th>
                 <th>Sender</th>
                 <th>Created By</th>
@@ -57,13 +59,19 @@
             <tr>
                 <td>{{$sup['subject']}}</td>
                 <td>{{$sup['issues']}}</td>
+                <td>{{'$'.$sup['Amount']}}</td>
+                <td>{{$sup['Datee']}}</td>
                 <td>{{$sup['name']}}</td>
                 <td>{{$sup['created_tag']}}</td>
                 <td>{{$sup['created_at']}}</td>
                 <td>
-                                                <a href="{{route('helps.show',$sup['id'])}}" class="btn btn-sm btn-success mx-1">View</a>
-                                                    
-                                                </td>
+    <div class="btn-group" role="group">
+        <a href="{{ route('helps.show', $sup['id']) }}" class="btn btn-sm btn-success mx-1">View</a>
+        <?php  if ($sup['subject'] == "withdrawl") { if($sup['tra'] <> 1) { ?>
+            <a href="{{ route('refund.done', $sup['tran_id']) }}" class="btn btn-sm btn-success mx-1">Refund</a>
+        <?php }} ?>
+    </div>
+</td>
             </tr>
             <?php } ?>
            

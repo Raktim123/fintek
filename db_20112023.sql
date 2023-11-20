@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 19, 2023 at 02:14 PM
+-- Generation Time: Nov 20, 2023 at 05:56 AM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 8.1.10
 
@@ -272,6 +272,33 @@ CREATE TABLE `forums` (
 INSERT INTO `forums` (`id`, `course_id`, `chapter_id`, `lesson_id`, `created_by`, `created_at`, `updated_at`) VALUES
 (1, 1, 3, 3, 1, '2023-10-19 11:26:28', '2023-10-19 11:26:28'),
 (2, 1, 3, 3, 4, '2023-10-19 11:27:25', '2023-10-19 11:27:25');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `instructorregistration`
+--
+
+CREATE TABLE `instructorregistration` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `desig` varchar(200) NOT NULL,
+  `working` varchar(500) NOT NULL,
+  `last_qualified` varchar(200) NOT NULL,
+  `spec` varchar(500) NOT NULL,
+  `exp` varchar(20) NOT NULL,
+  `certificate` varchar(200) NOT NULL,
+  `status` int(11) NOT NULL DEFAULT 1,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `instructorregistration`
+--
+
+INSERT INTO `instructorregistration` (`id`, `user_id`, `desig`, `working`, `last_qualified`, `spec`, `exp`, `certificate`, `status`, `created_at`, `updated_at`) VALUES
+(1, 1, 'software developer', 'TSM', 'B.Tech', 'Python,JAVA', '5', 'LIGHT Updated Lesson plan.pdf', 1, '2023-11-17 06:10:20', '2023-11-17 06:10:20');
 
 -- --------------------------------------------------------
 
@@ -615,6 +642,12 @@ ALTER TABLE `forums`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `instructorregistration`
+--
+ALTER TABLE `instructorregistration`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `lessons`
 --
 ALTER TABLE `lessons`
@@ -765,6 +798,12 @@ ALTER TABLE `forummessages`
 --
 ALTER TABLE `forums`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `instructorregistration`
+--
+ALTER TABLE `instructorregistration`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `lessons`

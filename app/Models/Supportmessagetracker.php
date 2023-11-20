@@ -15,7 +15,7 @@ class Supportmessagetracker extends Model
         "f_id",
         "t_id",
         "message",
-        "tran_id",
+        
         
     ];
 

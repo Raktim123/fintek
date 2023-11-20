@@ -4,33 +4,42 @@
 <div class="db__content">
   <div class="help-support-form-wrap content-wrap">
     <div class="content-box has-h2--bold">
-      <h2>Help & Support</h2>
+      <h2>Forum Details</h2>
       <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Tempora, alias.</p>
     </div>
 
-    <form method="POST" action="{{route('help.store')}}">
-      @csrf
-      <div>
-        <textarea name="hsf_issue" placeholder="Write your issue here..."></textarea>
-      </div>
-      <div>
-        <select name="hsf_subject" id="hsf_subject">
-          <option value="" selected disabled>Select Subject</option>
-          <option value="course related">Course Related</option>
-          <option value="withdrawl">Withdrawl Request</option>
-          <option value="others">Others</option>
-        </select>
-      </div>
-      <div id="orderwithdrawl" style="display: none;">
-        <!-- Options for the dependent dropdown -->
-        <select id="ordwid" name="ordwid">
-    <option value="">Select an option</option>
-</select>
+   <table  class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Course Name</th>
+                <th>Chapter Name</th>
+                <th>Lesson Name</th>
+                <th>Question</th>
+                <th>Sending By</th>
+                <th>Created</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach($questions as $qus) { ?>
+            <tr>
+                <td>{{$qus['course']}}</td>
+                <td>{{$qus['chapter']}}</td>
+                <td>{{$qus['lesson']}}</td>
+                <td>{{$qus['message']}}</td>
+                <td>{{$qus['name']}}</td>
+                <td>{{$qus['created_at']}}</td>
+                 <td>
+    <div class="btn-group" role="group">
+        <a href="{{ route('forum.details', $qus['id']) }}" class="btn btn-sm btn-success mx-1">View</a>
+        
     </div>
-      <div class="text-end">
-        <button type="submit" class="btn btn--primary">Submit</button>
-      </div>
-    </form>
+</td>
+            </tr>
+            <?php } ?>
+           
+        </tbody>
+    </table>
   </div>
 
 </div>

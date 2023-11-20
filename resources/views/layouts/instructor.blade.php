@@ -78,6 +78,12 @@
                   <span>Transaction History</span>
               </a>
             </li>
+            <li>
+              <a href="{{route('instructor.fetchforums')}}" title="Enrollment">
+                <i class="fa-solid fa-money-bill"></i>
+                  <span>Question Forum</span>
+              </a>
+            </li>
             
           </ul>
         </nav>

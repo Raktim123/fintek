@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Enroll;
 use App\Models\User;
+use App\Models\Refund;
+use App\Models\Transaction;
 use App\Models\Withdraw;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -20,8 +22,19 @@ class AdminController extends Controller
             $user->enrolls =  Enroll::where("student_id", $user->id)->count();
             $records[] = $user;
         }
-        dd($records);
+        //dd($records);
         return view('admin.students', ["studentcource" => $records]);
+    }
+
+    public function approving($id){
+        DB::update('UPDATE instructorregistration SET status = 2 WHERE user_id = ?', [
+            $id,
+           
+        ]); 
+        $ss = DB::select("select users.name,instructorregistration.* from instructorregistration inner join users on instructorregistration.user_id = users.id where instructorregistration.status = 1");
+        $courcelist = json_decode(json_encode($ss), true);
+
+        return view('admin.verifyinstructor', ["instructors" => $courcelist]);
     }
 
     public function get_instructors()
@@ -58,6 +71,13 @@ class AdminController extends Controller
         return view('admin.instructors', ["briefearning" => $total]);
     }
 
+    public function get_all_instructor(){
+        $ss = DB::select("select users.name,instructorregistration.* from instructorregistration inner join users on instructorregistration.user_id = users.id where instructorregistration.status = 1");
+        $courcelist = json_decode(json_encode($ss), true);
+
+        return view('admin.verifyinstructor', ["instructors" => $courcelist]);   
+    }
+
     public function get_CourceBy_student($id)
     {
         $ss = DB::select("select courses.*,users.name from enrolls inner join courses on courses.id = enrolls.course_id inner join users on users.id = enrolls.student_id where enrolls.student_id = ?", [$id]);
@@ -76,5 +96,27 @@ class AdminController extends Controller
             ->get();
         
         return view("admin.payment_approve", ["records" => $records]);
+    }
+
+    public function refunding($tran_id)
+    {
+        $ss = DB::select("select * from withdrawals where id in (select ref_id from transactions where id = ?)", [$tran_id]); 
+        $refn = new Refund();
+        $tran = new Transaction();
+        $refn->tran_id = $tran_id;
+        $refn->stat = 1;
+        $refn->amount = $ss[0]->amount;
+        $refn->save();
+
+        $tran->type = "REFUND";
+        $tran->ref_id = $refn->id;
+        $tran->save();
+        DB::update('UPDATE withdrawals SET withdrawal_status = "FAILD" WHERE id = ?', [
+            $ss[0]->id,
+           
+        ]);
+        return redirect()->route('helps.index');
+
+
     }
 }

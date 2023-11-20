@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Chapter;
 use App\Models\Course;
+use App\Models\Forumhead;
 use Illuminate\Http\Request;
 use App\Models\PaymentMethod;
 use App\Models\Transaction;
+use App\Models\Forummessage;
+use App\Models\Lesson;
 use App\Models\Order;
 use App\Models\Withdraw;
 use Illuminate\Support\Facades\DB;
@@ -28,8 +32,10 @@ class InstructorController extends Controller
         $total["History"] = array();
         $tran = Transaction::orderBy('id', 'desc')->get()->toArray();
         foreach($tran as $value){
+            
             $arr2 = [];
             $stat = $value['type'];
+            
             if($stat=="EARNING"){
                 $ss = DB::select("select * from order_metas inner join transactions on order_metas.order_id = transactions.ref_id inner join courses on order_metas.course_id = courses.id inner join orders on orders.id = order_metas.order_id inner join users on orders.purchase_by = users.id where courses.instructor_id = ? and transactions.ref_id = ?", [auth()->user()->id, $value['ref_id']]);
                  $resultsArray = json_decode(json_encode($ss), true);
@@ -48,8 +54,8 @@ class InstructorController extends Controller
                    
                  }
                  
-            }else{
-                $ss = DB::select("SELECT * FROM transactions AS t1 INNER JOIN withdrawals AS t2 ON t1.ref_id = t2.id INNER JOIN users AS t3 ON t2.withdrawal_by = t3.id WHERE t3.id = ? and t1.ref_id = ?", [auth()->user()->id,$value['ref_id']]);
+            }elseif($stat=="WITHDRAWL"){
+                $ss = DB::select("SELECT * FROM transactions AS t1 INNER JOIN withdrawals AS t2 ON t1.ref_id = t2.id INNER JOIN users AS t3 ON t2.withdrawal_by = t3.id WHERE t3.id = ? and t1.type = 'WITHDRAWL' and t1.ref_id = ?", [auth()->user()->id,$value['ref_id']]);
                 $resultsArray = json_decode(json_encode($ss), true);  
                 if(sizeof($resultsArray)===1){
                     $arr2["Date"]  = date("d-m-Y", strtotime($value['created_at']));
@@ -62,6 +68,19 @@ class InstructorController extends Controller
                     array_push($total["History"],$arr2);
                 }
 
+            }elseif($stat=="REFUND"){
+                $ss = DB::select("select b.created_at,a.type,b.amount from transactions a inner join refund b on a.ref_id = b.id inner join transactions c on b.tran_id = c.id inner join withdrawals d on c.ref_id = d.id inner join users e on d.withdrawal_by = e.id where a.type = 'REFUND' and d.withdrawal_by = ? and a.ref_id = ?", [auth()->user()->id,$value['ref_id']]);
+                $resultsArray = json_decode(json_encode($ss), true);  
+                if(sizeof($resultsArray)===1){
+                    $arr2["Date"]  = date("d-m-Y", strtotime($value['created_at']));
+                    $arr2["Type"] = "REFUND";
+                    $arr2["Amount"] = $resultsArray[0]['amount'];
+                    $arr2["Name"] = "NA";
+                    $arr2["Desc"] = "Admin Has Refunded the amount : ".$resultsArray[0]['amount'];
+                    $arr2["referrer"] = "";
+                    $arr2["status"] = "";
+                    array_push($total["History"],$arr2);
+                }
             }
             
         }
@@ -221,11 +240,76 @@ class InstructorController extends Controller
 
     public function getallwithdrawl(){
 
-        $withdr = DB::select("select id from transactions where ref_id in (select id from withdrawals where withdrawal_by = ?) ", [auth()->user()->id]);
+        $withdr = DB::select("select transactions.id,withdrawals.amount,withdrawals.reference from transactions inner join withdrawals on transactions.ref_id = withdrawals.id where withdrawals.withdrawal_by =? and transactions.type = 'WITHDRAWL'", [auth()->user()->id]);
             $options = json_decode(json_encode($withdr), true); 
         return response()->json($options);
     }
     
+    public function fetchforum(){
+        $question = DB::select("select forums.id,courses.title course,chapters.title chapter,lessons.title lesson,forummessages.message,usu.name,forums.created_at from forums inner join courses on forums.course_id = courses.id inner join chapters on forums.chapter_id = chapters.id inner join lessons on forums.lesson_id = lessons.id inner join users on courses.instructor_id = users.id inner join users usu on forums.created_by = usu.id inner join forummessages on forums.id = forummessages.forum_id where users.id =? and forummessages.stat = 1", [auth()->user()->id]);
+        $Qs = json_decode(json_encode($question), true); 
+
+        return view("instructor.forumdetails",["questions" => $Qs]);
+
+    }
 
   
+    public function allhead($tran_id){
+        $details = DB::select("select forummessages.forum_id,users.name sender,usu.name receiver,forummessages.message,forummessages.created_at from forums inner join forummessages on forums.id = forummessages.forum_id inner join users on forummessages.fr_id = users.id inner join users usu on forummessages.to_id = usu.id where forums.id =? order by forummessages.id", [$tran_id]);
+        $dt = json_decode(json_encode($details), true); 
+
+        return view("instructor.detailsforum",["heads" => $dt]);
+
+    }
+
+    public function replying(Request $rst){
+        $ed = DB::select("select * from forums where id=?", [$rst->idd]);
+        $ids = json_decode(json_encode($ed), true); 
+
+      $send = new Forummessage();
+      $send->forum_id = $rst->idd;
+      $send->fr_id = auth()->user()->id;
+      $send->to_id =$ids[0]['created_by'];
+      $send->stat = 0;
+      $send->message = $rst->message;
+
+      $send->save();
+
+      return redirect()->route('forum.details',$rst->idd); 
+    }
+
+    public function ask_question(Request $request)
+    {
+        $chapter = Chapter::find($request->lesson_id);
+        $course = Course::find($chapter->course_id);
+
+        $question = new Forumhead();
+        $message = new Forummessage();
+
+        $question->course_id    = $chapter->course_id;
+        $question->chapter_id   = $chapter->id;
+        $question->lesson_id    = $request->lesson_id;
+        $question->created_by   = auth()->user()->id;
+
+        if($question->save())
+        {
+            $message->forum_id  = $question->id;
+            $message->fr_id     = auth()->user()->id;
+            $message->to_id     = $course->instructor_id;
+            $message->message   = $request->question;
+        
+            if($message->save())
+            {
+                return response()->json(["status" => true], 200);
+            }
+            else 
+            {
+                return response()->json(["status" => false], 500);
+            }
+        }
+        else 
+        {
+            return response()->json(["status" => false], 500);
+        }
+    }
 }

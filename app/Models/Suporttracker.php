@@ -16,6 +16,7 @@ class Suporttracker extends Model
         "issues",
         "created_by",
         "created_tag",
+        "tran_id",
         
     ];
 

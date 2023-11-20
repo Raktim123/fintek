@@ -8,6 +8,7 @@ use App\Models\course;
 use App\Models\CourseMeta;
 use App\Models\Lesson;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class CourseController extends Controller
 {
@@ -112,7 +113,12 @@ class CourseController extends Controller
      */
     public function update(Request $request, course $course)
     {
-        //
+        $records = DB::table("courses")
+            ->join("curriculum", "curriculum.id", "=", "curriculum.id")
+            ->get();
+        
+
+        dd($records);
     }
 
     /**
