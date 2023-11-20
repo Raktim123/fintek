@@ -127,7 +127,10 @@ class HomeController extends Controller
             $instructor->exp = $rst->teaching_experience;
             $instructor->certificate = $fileName;
             $instructor->save();
-            return view('frontend.instructor', ["menus" => $menus]);
+            $courses = Course::where("instructor_id", auth()->user()->id)->get();
+
+            return view("instructor.dashboard", ["courses" => $courses]);
+            
         }
     }
 

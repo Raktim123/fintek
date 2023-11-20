@@ -1,6 +1,6 @@
-@include('layouts.heddo')
+@include('layouts.app')
 
-
+@section('content')
 <div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-md-8">
@@ -36,9 +36,9 @@
                         </div>
 
                         <div class="form-group mb-3">
-    <label for="file_upload">Last Qualification Certificate (PDF only):</label>
-    <input type="file" class="form-control-file" id="file_upload" name="file_upload" accept=".pdf" required>
-</div>
+                            <label for="file_upload">Last Qualification Certificate (PDF only):</label>
+                            <input type="file" class="form-control-file" id="file_upload" name="file_upload" accept=".pdf" required>
+                        </div>
 
                         <div class="form-group mb-0">
                             <button type="submit" class="btn btn-primary">{{ __('Submit') }}</button>
@@ -49,5 +49,3 @@
         </div>
     </div>
 </div>
-
-@include('layouts.futtu')

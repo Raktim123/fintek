@@ -13,14 +13,16 @@
     <script src="{{ asset('assets/frontend/js/jquery.min.js') }}"></script>
     <link rel="icon" href="{{ asset('assets/frontend/images/favicon.png') }}" sizes="32x32" />
     <style>
-.disabled-link {
-    pointer-events: none; /* Disable pointer events */
-    color: #999; /* Change color to visually indicate it is disabled */
-    text-decoration: none; /* Optionally remove underline */
-    /* Additional styles to visually indicate a disabled link */
-}
-
-        </style>
+        .disabled-link {
+            pointer-events: none;
+            /* Disable pointer events */
+            color: #999;
+            /* Change color to visually indicate it is disabled */
+            text-decoration: none;
+            /* Optionally remove underline */
+            /* Additional styles to visually indicate a disabled link */
+        }
+    </style>
 </head>
 
 <body>
@@ -62,27 +64,31 @@
                                 <a class="dropdown-item" href="myprofile.php">Wishlist</a>
                             </li>
                             @php
-        
-                            $mid = DB::table('instructorregistration')->where('status', 1)->where('user_id',auth()->user()->id)->get();
-                            $fin = DB::table('instructorregistration')->where('status', 2)->where('user_id',auth()->user()->id)->get();
+
+                            $mid = DB::table('instructorregistration')->where('user_id',auth()->user()->id)->get();
+
                             $prec = $mid->count();
-                            $precd = $fin->count();
+                            if($prec==1){
+                            $stst = $mid->first()->status;
+                            }
+
+
                             @endphp
-                            @if($prec==1)
-                            <li>
-                               <a class="dropdown-item disabled-link" href="{{ route('be.instructor') }}">Become an Instructor</a>
-                            </li>
-                            @endif
-                            @if($prec==0)
-                            <li>
-                               <a class="dropdown-item" href="{{ route('be.instructor') }}">Become an Instructor</a>
-                            </li>
-                            @endif
-                            @if($precd==1)
-                            <li>
-                                <a class="dropdown-item" href="{{ route('instructor.dashboard') }}">Instructor Dashboard</a>
-                            </li>
-                            @endif
+                            <?php if (($prec == 1) && ($stst == 1)) { ?>
+                                <li>
+                                    <a class="dropdown-item" href="{{ route('beainstructors') }}">Instructor Dashboard</a>
+                                </li>
+                            <?php } elseif ($prec == 0) { ?>
+
+                                <li>
+                                    <a class="dropdown-item" href="{{ route('be.instructor') }}">Become an Instructor</a>
+                                </li>
+                            <?php } elseif (($prec == 1) && ($stst == 2)) { ?>
+
+                                <li>
+                                    <a class="dropdown-item" href="{{ route('instructor.dashboard') }}">Instructor Dashboard</a>
+                                </li>
+                            <?php } ?>
                             <li>
                                 <a class="dropdown-item" href="myprofile.php">Notification</a>
                             </li>

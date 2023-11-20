@@ -2,10 +2,20 @@
 
 @section('content')
 <div class="db__content">
+    @php
+
+    $mid = DB::table('instructorregistration')->where('status', 1)->where('user_id',auth()->user()->id)->get();$fin = DB::table('instructorregistration')->where('status', 2)->where('user_id',auth()->user()->id)->get();
+    $prec = $mid->count();
+
+    @endphp
+    <?php if($prec==1){ ?>
+        <h3>YOUR REGISTRATION IS STILL UNDER REVIEW BY ADMIN, AS SOON AS IT WILL APPROVED, YOU CAN ACCESS THE REST</h3>
+
+        <?php } else { ?>
     <div class="text-end mb-4">
         <a href="{{ route('course.create') }}" class="btn btn--primary btn--add-course"><i class="fa-solid fa-plus me-2"></i>Add Course</a>
     </div>
-
+<?php } ?>
     <ul class="courses-list">
         @foreach($courses as $course)
         <li>

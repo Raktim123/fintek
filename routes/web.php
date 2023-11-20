@@ -68,6 +68,7 @@ Route::middleware('auth')->group(function () {
     Route::get("home/be-instructor/", [HomeController::class, "instructorship"])->name("be.instructor");
     Route::get("home/instructor-registration/", [HomeController::class, "reginstructor"])->name("reg.instructor");
     Route::post("home/completeregistration", [HomeController::class, "submitregis"])->name("beainstructor");
+    Route::get("home/completeregistration", [InstructorController::class, "dashboard"])->name("beainstructors");
 
     Route::get('/profile', [HomeController::class, 'edit'])->name('profile.edit');
     // Route::patch('/profile', [HomeController::class, 'update'])->name('profile.update');

@@ -30,6 +30,20 @@
       <div class="sidebar-nav-wrap">
         <nav>
           <ul>
+            @php
+
+            $mid = DB::table('instructorregistration')->where('status', 1)->where('user_id',auth()->user()->id)->get();$fin = DB::table('instructorregistration')->where('status', 2)->where('user_id',auth()->user()->id)->get();
+            $prec = $mid->count();
+
+            @endphp
+            <?php if ($prec == 1){ ?>
+            <li>
+              <a href="" title="Courses">
+                <i class="fa-solid fa-circle-play"></i>
+                <span>Dashboard</span>
+              </a>
+            </li>
+<?php } else { ?>
             <li>
               <a href="{{ route('instructor.dashboard') }}" title="Courses">
                 <i class="fa-solid fa-circle-play"></i>
@@ -75,16 +89,16 @@
             <li>
               <a href="{{route('instructor.transaction')}}" title="Enrollment">
                 <i class="fa-solid fa-money-bill"></i>
-                  <span>Transaction History</span>
+                <span>Transaction History</span>
               </a>
             </li>
             <li>
               <a href="{{route('instructor.fetchforums')}}" title="Enrollment">
                 <i class="fa-solid fa-money-bill"></i>
-                  <span>Question Forum</span>
+                <span>Question Forum</span>
               </a>
             </li>
-            
+<?php } ?>
           </ul>
         </nav>
       </div>
@@ -194,7 +208,7 @@
               <div class="dropdown-menu" aria-labelledby="accountDropdown">
                 <a class="dropdown-item" href="{{route('my_courses')}}">Student Dashboard</a>
                 <form method="POST" action="{{ route('logout') }}">
-                @csrf
+                  @csrf
                   <a class="dropdown-item" href="javascript:;" onclick="parentNode.submit();">Logut</a>
                 </form>
               </div>
