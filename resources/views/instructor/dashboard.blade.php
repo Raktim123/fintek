@@ -16,7 +16,14 @@
                     </a>
                 </figure>
                 <div class="db-course-card__body">
+                    @if($course->price_type == "FREE")
                     <p class="db-course-card__type text-uppercase fw-medium db-course-card__type--free">Free</p>
+                    @endif
+
+                    @if($course->price_type == "PAID")
+                    <p class="db-course-card__type text-uppercase fw-medium db-course-card__type--free">Paid</p>
+                    @endif
+
                     <h5 class="db-course-card__title fw-semibold"><a href="#" target="_blank" class="line-clamp line-clamp--2">{{ $course->title }}</a></h5>
 
                     @if($course->price_type == "FREE")
@@ -27,10 +34,11 @@
                     <p class="db-course-card__price fw-semibold"><span class="selling-price me-2">{{ "$".$course->sale_price }}</span><span class="regular-price text-decoration-line-through">{{ "$".$course->price }}</span></p>
                     @endif
 
-                    <div class="d-flex flex-wrap flex-md-nowrap">
+                    <div class="d-flex flex-wrap flex-md-nowrap d-none">
                         <p class="fw-medium me-3 mb-0 db-course-card__students d-inline-flex align-items-center"><i class="fa-solid fa-user"></i>Enrolled Student: <strong>100</strong></p>
                         <p class="d-none fw-medium mb-0 db-course-card__earnings d-inline-flex align-items-center"><i class="fa-solid fa-money-bill"></i>Earnings: <strong>$1000.00</strong></p>
                     </div>
+
                     <div class="db-course-card__cta-wrap d-flex">
                         <a href="{{ route('course.edit', $course->id) }}" class="db-course-card__edit py-1 px-4 mx-1"><i class="fa-solid fa-pen-to-square"></i>Edit</a>
                         <form method="POST" action="{{ route('course.destroy', $course->id) }}">

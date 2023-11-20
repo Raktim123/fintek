@@ -192,8 +192,11 @@
                 </figure>
               </button>
               <div class="dropdown-menu" aria-labelledby="accountDropdown">
-                <a class="dropdown-item" href="#">My Account</a>
-                <a class="dropdown-item" href="#">Logut</a>
+                <a class="dropdown-item" href="{{route('my_courses')}}">Student Dashboard</a>
+                <form method="POST" action="{{ route('logout') }}">
+                @csrf
+                  <a class="dropdown-item" href="javascript:;" onclick="parentNode.submit();">Logut</a>
+                </form>
               </div>
             </div>
           </div>
@@ -212,6 +215,7 @@
   <script src="https://kit.fontawesome.com/2d537fef4a.js" crossorigin="anonymous"></script>
   <script src="{{ asset('assets/instructor/vendors/owl-carousel-2.3.4/owl.carousel.min.js') }}"></script>
   <script src="{{ asset('assets/instructor/js/script.js') }}"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 
 </html>

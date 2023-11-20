@@ -1,11 +1,11 @@
-@include('layouts.heddo')
+@extends('layouts.app')
 
+@section('content')
 <div class="main__body__wrapp">
-
     <div class="ins__wrapp">
         <div class="container">
             <div class="row">
-                <div class="ins__banner">
+                <div class="ins__banner" style="background-image: url('{{asset('assets/frontend/images/billboard-desktop-v4.jpg')}}');">
                     <h2>Come teach with us</h2>
                     <p>Become an instructor and change lives — including your own</p>
                     <a href="{{route('reg.instructor')}}">Get started</a>
@@ -55,28 +55,28 @@
                 <div class="col">
                     <div class="counter">
 
-                        <h2 class="timer count-title count-number" data-to="100" data-speed="1500"></h2>
+                        <h2 class="timer count-title count-number" data-to="100" data-speed="1500">100</h2>
                         <p class="count-text ">Learners</p>
                     </div>
                 </div>
                 <div class="col">
                     <div class="counter">
 
-                        <h2 class="timer count-title count-number" data-to="1700" data-speed="1500"></h2>
+                        <h2 class="timer count-title count-number" data-to="1700" data-speed="1500">100</h2>
                         <p class="count-text ">Instructors</p>
                     </div>
                 </div>
                 <div class="col">
                     <div class="counter">
 
-                        <h2 class="timer count-title count-number" data-to="11900" data-speed="1500"></h2>
+                        <h2 class="timer count-title count-number" data-to="11900" data-speed="1500">100</h2>
                         <p class="count-text ">Courses</p>
                     </div>
                 </div>
                 <div class="col">
                     <div class="counter">
 
-                        <h2 class="timer count-title count-number" data-to="157" data-speed="1500"></h2>
+                        <h2 class="timer count-title count-number" data-to="157" data-speed="1500">100</h2>
                         <p class="count-text ">Course enrollments</p>
                     </div>
                 </div>
@@ -165,5 +165,4 @@
         </div>
     </div>
 </div>
-
-@include('layouts.futtu')
+@stop

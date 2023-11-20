@@ -80,7 +80,7 @@
                   </div>
 
                   <div>
-                    <a href="#" class="btn btn--primary">Submit For Review</a>
+                    <a href="#" class="btn btn--primary" onclick="submitforreview()">Save For Review</a>
                   </div>
                 </div>
               </aside>
@@ -927,6 +927,15 @@
         })
         .catch(error => console.log(error))
     })
+
+    function submitforreview() {
+      Swal.fire({
+        title: "Good job!",
+        text: "The course is submitted for review",
+        icon: "success"
+      });
+      window.location.href="{{route('instructor.dashboard')}}"
+    }
   </script>
 
   @if(isset($course))

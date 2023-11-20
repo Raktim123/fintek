@@ -80,7 +80,7 @@
                   </div>
 
                   <div>
-                    <a href="#" class="btn btn--primary">Submit For Review</a>
+                    <button class="btn btn--primary" onclick="submitforreview()">Save For Review</button>
                   </div>
                 </div>
               </aside>
@@ -380,7 +380,7 @@
                                       </div>
                                       @if(is_null($lesson->content) == false)
                                       <div>
-                                        <iframe width="100%" height="360" src="<?php echo asset(Storage::url($lesson->content)); ?>" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                                        <iframe width="100%" height="360" src="<?php echo asset(Storage::url($lesson->content)); ?>" title="YouTube video player" frameborder="0"></iframe>
                                       </div>
                                       @endif
                                       <div class="position-relative">
@@ -968,6 +968,16 @@
           })
         })
     })
+
+    function submitforreview() {
+      alert("The course is submitted for review")
+      // Swal.fire({
+      //   title: "Good job!",
+      //   text: "The course is submitted for review",
+      //   icon: "success"
+      // });
+      window.location.href="{{route('instructor.dashboard')}}"
+    }
 
     // Global Fetch Form Submitter
     // $("#intended_learners_form").on("submit", function(event) {

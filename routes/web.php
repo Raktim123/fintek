@@ -43,9 +43,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [HomeController::class, "index"])->name("home");
 Route::get('/course/{id}', [HomeController::class, "single_course"])->name("course.single");
 Route::get('add_cart/{course_id}', [HomeController::class, "add_cart"])->name("add_cart");
-
 Route::get('cart', [HomeController::class, "cart"])->name("cart");
-
 Route::get('terms-and-conditions', [HomeController::class, "tc"])->name("tc");
 Route::get('privacy-and-policy', [HomeController::class, "pp"])->name("pp");
 
@@ -123,17 +121,16 @@ Route::middleware('auth')->prefix("instructor")->group(function () {
 // Admin Routes
 Route::get("/admin", function () {
     return view("admin.cms.create");
-});
+})->middleware("admin");
+Route::get('/terms', [CmsController::class, "terms"])->name('terms')->middleware("admin");
+Route::get('/privacy', [CmsController::class, "priv"])->name('privacy')->middleware("admin");
+Route::post('/addprivacy', [CmsController::class, "addprivacy"])->name('add.privacy')->middleware("admin");
+Route::post('/addterms', [CmsController::class, "addterms"])->name('add.terms')->middleware("admin");
+Route::resource("categories", CategoryController::class)->middleware("admin");
+Route::resource("banners", BannermanagementController::class)->middleware("admin");
+Route::get('/getwithdrawl', [InstructorController::class, "getallwithdrawl"])->name('instructor_withdrawl')->middleware("admin");
 
- Route::get('/terms', [CmsController::class, "terms"])->name('terms');
- Route::get('/privacy', [CmsController::class, "priv"])->name('privacy');
- Route::post('/addprivacy', [CmsController::class, "addprivacy"])->name('add.privacy');
- Route::post('/addterms', [CmsController::class, "addterms"])->name('add.terms');
- Route::resource("categories", CategoryController::class);
- Route::resource("banners", BannermanagementController::class);
- Route::get('/getwithdrawl', [InstructorController::class, "getallwithdrawl"])->name('instructor_withdrawl');
-
- Route::middleware('auth')->prefix("admin")->group(function () {
+Route::middleware(['auth', 'admin'])->prefix("admin")->group(function () {
     Route::resource("courses", CourseController::class);
     Route::resource("helps", HelpsupportController::class);
     Route::resource("adminprofile", Adminprofilemanagement::class);

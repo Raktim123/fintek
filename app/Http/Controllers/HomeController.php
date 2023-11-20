@@ -99,7 +99,8 @@ class HomeController extends Controller
     }
 
     public function instructorship(){
-        return view('frontend.instructor');   
+        $menus = $this->get_menus();
+        return view('frontend.instructor', ["menus" => $menus]);   
     }
 
     public function reginstructor(){
@@ -110,6 +111,7 @@ class HomeController extends Controller
     }
 
     public function submitregis(Request $rst){
+        $menus = $this->get_menus();
         if ($rst->hasFile('file_upload')) {
             $pdfFile = $rst->file('file_upload');
             $destinationPath = public_path('/instructorcertificate'); // Change the path as needed
@@ -125,7 +127,7 @@ class HomeController extends Controller
             $instructor->exp = $rst->teaching_experience;
             $instructor->certificate = $fileName;
             $instructor->save();
-            return view('frontend.instructor');
+            return view('frontend.instructor', ["menus" => $menus]);
         }
     }
 
